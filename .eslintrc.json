@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "plugins": [
+    "@cypress/dev",
+    "jest"
+  ],
+  "extends": [
+    "plugin:@cypress/dev/general"
+  ]
+}

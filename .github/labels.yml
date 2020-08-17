@@ -1,0 +1,82 @@
+- name: 💩 template incomplete
+  color: 4e342e
+- name: 💩 template removed
+  color: 4e342e
+- name: c¹ ⋅ discussion
+  color: 1976d2
+- name: c² ⋅ feedback wanted
+  color: f9a825
+- name: c³ ⋅ PR welcome
+  color: 1b5e20
+- name: c⁴ ⋅ need more info
+  color: 6a1b9a
+- name: c⁵ ⋅ question
+  color: c2185b
+- name: c⁶ ⋅ request for comments
+  color: bbdefb
+- name: p¹ ⋅ browser
+  color: b2dfdb
+- name: p² ⋅ linux
+  color: b2dfdb
+- name: p³ ⋅ mac
+  color: b2dfdb
+- name: p⁴ ⋅ windows
+  color: b2dfdb
+- name: pr¹ 🔧 chore
+  color: d7ccc8
+- name: pr² 🔧 docs
+  color: d7ccc8
+- name: pr³ 🔧 feature
+  color: d7ccc8
+- name: pr⁴ 🔧 fix
+  color: d7ccc8
+- name: pr⁵ 🔧 performance
+  color: d7ccc8
+- name: pr⁶ 🔧 refactor
+  color: d7ccc8
+- name: pr⁷ 🔧 style
+  color: d7ccc8
+- name: pr⁸ 🔧 test
+  color: d7ccc8
+- name: s¹ 🔥🔥🔥 critical
+  color: e53935
+- name: s² 🔥🔥 important
+  color: fb8c00
+- name: s³ 🔥 nice to have
+  color: fdd835
+- name: s⁴ 💧 low
+  color: 039be5
+- name: s⁵ 💧💧 inconvenient
+  color: c0e0f7
+- name: t¹ 🐞 bug
+  color: f44336
+- name: t² 📚 documentation
+  color: fdd835
+- name: t³ ✨ enhancement
+  color: 03a9f4
+- name: t⁴ ⋅ regression
+  color: 0052cc
+- name: t⁵ ⋅ todo
+  color: 311b92
+- name: t⁶ ⋅ waiting on upstream
+  color: 0d47a1
+- name: v¹ ⋅ major
+  color: cddc39
+- name: v² ⋅ minor
+  color: ff9800
+- name: v³ ⋅ minor (experimental)
+  color: ffc107
+- name: x¹ ⋅ abandoned
+  color: cfd8dc
+- name: x² ⋅ could not reproduce
+  color: cfd8dc
+- name: x³ ⋅ duplicate
+  color: cfd8dc
+- name: x⁴ ⋅ hold
+  color: cfd8dc
+- name: x⁵ ⋅ in progress
+  color: 4caf50
+- name: x⁶ ⋅ invalid
+  color: cfd8dc
+- name: x⁷ ⋅ wontfix
+  color: cfd8dc

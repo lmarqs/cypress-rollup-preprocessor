@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.2.0...v0.2.1) (2020-08-17)
+
+
+### Bug Fixes
+
+* fix publishing ([8f2802b](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/8f2802bf6c038ce001720a4e1d1f3510c7f7b2d2))
+
 # [0.2.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.1.0...v0.2.0) (2020-08-17)
 
 

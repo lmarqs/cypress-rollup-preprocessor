@@ -1,0 +1,72 @@
+{
+  "name": "cypress-rollup-preprocessor",
+  "version": "0.1.0",
+  "main": "dist",
+  "types": "dist",
+  "description": "Cypress preprocessor for bundling JavaScript via rollup",
+  "homepage": "https://github.com/lmarqs/cypress-rollup-preprocessor",
+  "bugs": "https://github.com/lmarqs/cypress-rollup-preprocessor/issues",
+  "author": {
+    "name": "Lucas Marques de Paula",
+    "url": "https://github.com/lmarqs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lmarqs/cypress-rollup-preprocessor.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cypress-rollup-preprocessor",
+    "cypress",
+    "cypress-plugin",
+    "cypress-preprocessor",
+    "webpack"
+  ],
+  "scripts": {
+    "build": "rollup --config ./rollup.config.js",
+    "lint:commit": "commitlint --from master",
+    "lint:eslint": "eslint --ext ts --ext js .",
+    "lint:markdown": "markdownlint '**/*.md' --ignore node_modules --ignore CHANGELOG.md",
+    "lint:yamllint": "yamllint '**/*.{yaml,yml}' --ignore='node_modules/**/*'",
+    "lint": "npm-run-all lint:*",
+    "prebuild": "shx rm -rf dist",
+    "release": "npx semantic-release",
+    "test": "mocha test/**/*.spec.*"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^10.0.0",
+    "@cypress/eslint-plugin-dev": "^5.0.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/exec": "^5.0.0",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.0.7",
+    "@semantic-release/release-notes-generator": "^9.0.1",
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.2",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.9.1",
+    "chai": "^4.2.0",
+    "eslint": "^7.7.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-json-format": "^2.0.1",
+    "eslint-plugin-mocha": "^8.0.0",
+    "markdownlint-cli": "^0.23.2",
+    "mocha": "^8.1.1",
+    "npm-run-all": "^4.1.5",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "semantic-release": "^17.1.1",
+    "shx": "^0.3.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7",
+    "yaml-lint": "^1.2.4"
+  },
+  "dependencies": {
+    "rollup": "^2.26.3"
+  },
+  "peerDependencies": {
+    "rollup": "^2.26.3"
+  }
+}

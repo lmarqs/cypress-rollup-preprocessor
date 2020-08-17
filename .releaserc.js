@@ -8,7 +8,7 @@ module.exports = {
     }],
     "@semantic-release/git",
     ["@semantic-release/github", {
-      "assets": "dist/*.tar.gz",
+      "assets": "dist/*.tgz",
     }],
   ]
 }

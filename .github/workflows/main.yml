@@ -1,0 +1,25 @@
+name: Build
+on:
+  pull_request:
+  push:
+   branches:
+    - master
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        fetch-depth: 0
+    - if: github.ref != 'refs/heads/master'
+      run: git branch master origin/master
+    - run: npm ci
+    - run: npm run lint
+    - run: npm run build
+    - run: npm run test
+    - run: npm run release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

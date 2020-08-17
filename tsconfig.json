@@ -2,10 +2,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
+    "esModuleInterop": true,
     "lib": ["esnext"],
     "module": "commonjs",
+    "outDir": "./dist",
     "strict": true,
-    "target": "es5"
+    "target": "es5",
   },
-  "exclude": ["dist"]
+  "exclude": ["dist"],
+  "include": ["src"]
 }

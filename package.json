@@ -1,37 +1,21 @@
 {
   "name": "cypress-rollup-preprocessor",
   "version": "0.2.0",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
   "description": "Cypress preprocessor for bundling JavaScript via rollup",
-  "homepage": "https://github.com/lmarqs/cypress-rollup-preprocessor",
-  "bugs": "https://github.com/lmarqs/cypress-rollup-preprocessor/issues",
-  "author": {
-    "name": "Lucas Marques de Paula",
-    "url": "https://github.com/lmarqs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:lmarqs/cypress-rollup-preprocessor.git"
-  },
-  "license": "MIT",
-  "keywords": [
-    "cypress-rollup-preprocessor",
-    "cypress",
-    "cypress-plugin",
-    "cypress-preprocessor",
-    "webpack"
-  ],
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint:commit": "commitlint --from master",
-    "lint:eslint": "eslint --ext ts --ext js .",
-    "lint:markdown": "markdownlint '**/*.md' --ignore node_modules --ignore CHANGELOG.md",
-    "lint:yamllint": "yamllint '**/*.{yaml,yml}' --ignore='node_modules/**/*'",
-    "lint": "npm-run-all lint:*",
     "prebuild": "shx rm -rf dist",
+    "build": "tsc",
+    "lint": "npm-run-all lint:*",
+    "lint:commit": "commitlint --from master",
+    "lint:js": "eslint --ext .js,.jsx,.json,.ts,.tsx .",
+    "lint:markdown": "markdownlint '**/*.md' --ignore node_modules --ignore CHANGELOG.md",
+    "lint:yaml": "yamllint '**/*.{yaml,yml}' --ignore='node_modules/**/*'",
     "release": "npx semantic-release",
     "test": "mocha test/**/*.spec.*"
+  },
+  "dependencies": {
+    "rollup": "^2.26.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
@@ -63,10 +47,29 @@
     "typescript": "^3.9.7",
     "yaml-lint": "^1.2.4"
   },
-  "dependencies": {
-    "rollup": "^2.26.3"
-  },
   "peerDependencies": {
     "rollup": "^2.26.3"
-  }
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lmarqs/cypress-rollup-preprocessor.git"
+  },
+  "homepage": "https://github.com/lmarqs/cypress-rollup-preprocessor",
+  "author": {
+    "name": "Lucas Marques de Paula",
+    "url": "https://github.com/lmarqs"
+  },
+  "bugs": "https://github.com/lmarqs/cypress-rollup-preprocessor/issues",
+  "keywords": [
+    "cypress",
+    "cypress-plugin",
+    "cypress-preprocessor",
+    "cypress-rollup-preprocessor",
+    "rollup"
+  ]
 }

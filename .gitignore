@@ -211,4 +211,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/git,node,react,macos,linux,windows
 
-_*
+test/_test-output

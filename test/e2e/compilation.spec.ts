@@ -2,10 +2,10 @@ import { EventEmitter } from 'events'
 import chai, { expect } from 'chai'
 import fs from 'fs-extra'
 import path from 'path'
-import snapshot from 'snap-shot-it'
+import retry from 'bluebird-retry'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import retry from 'bluebird-retry'
+import snapshot from 'snap-shot-it'
 
 import { createPreprocessor, FileObject } from '../../src/preprocessor'
 
@@ -77,8 +77,9 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, '{')
 
-    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 0, interval: 100, backoff: 10 })
+    await retry(() => expect(_emit).calledWith('rerun'))
   })
+  .timeout(5000)
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
     file = createFile({ shouldWatch: true })
@@ -90,6 +91,7 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 0, interval: 100, backoff: 10 })
+    await retry(() => expect(_emit).calledWith('rerun'))
   })
+  .timeout(5000)
 })

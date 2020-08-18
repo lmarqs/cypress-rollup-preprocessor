@@ -42,7 +42,7 @@ module.exports = (on) => {
 
 ## Options
 
-Pass in options as the second argument to `rollup`:
+Pass in options as the argument to `rollup`:
 
 ```javascript
 const rollupPreprocessor = require("cypress-rollup-preprocessor");

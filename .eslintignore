@@ -1,1 +1,6 @@
-.gitignore
+dist
+tsconfig.json
+package-lock.json
+
+test/fixtures
+test/_test-output

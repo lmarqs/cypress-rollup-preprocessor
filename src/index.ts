@@ -1,1 +1,1 @@
-export { preprocessor as default } from './preprocessor'
+export { createPreprocessor as default } from './preprocessor'

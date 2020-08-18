@@ -1,15 +1,62 @@
-/**
- * Cypress asks file preprocessor to bundle the given file
- * and return the full path to produced bundle.
- */
-interface FileObject {
-  filePath: string
-  outputPath: string
-  shouldWatch: boolean
+import { rollup, watch, OutputOptions, RollupOptions, RollupWatcher } from 'rollup'
+import { EventEmitter } from 'events'
+
+interface ProcessingOptions {
+  rollupOptions?: RollupOptions
 }
 
-type FilePreprocessor = (file: FileObject) => string | Promise<string>
+export type FileObject =
+  & EventEmitter
+  & {
+    filePath: string
+    outputPath: string
+    shouldWatch: boolean
+  }
+  ;
 
-export const preprocessor: FilePreprocessor = async () => {
-  throw Error('not implemented yet')
+const watchers: Record<string, RollupWatcher> = {}
+
+async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
+  if (watchers[file.filePath]) {
+    return file.filePath
+  }
+
+  const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
+    input: file.filePath,
+  })
+
+  const outputOptions: OutputOptions = {
+    file: file.outputPath,
+    format: 'umd',
+  }
+
+  const rollupBuild = await rollup(rollupOptions)
+
+  await rollupBuild.write(outputOptions)
+
+  if (file.shouldWatch) {
+    const watcher = watch({
+      ...rollupOptions,
+      output: outputOptions,
+    })
+
+    file.on('close', () => {
+      watcher.close()
+      delete watchers[file.filePath]
+    })
+
+    watcher.on('event', (e) => {
+      if (e.code === 'END') {
+        file.emit('rerun')
+      }
+    })
+
+    watchers[file.filePath] = watcher
+  }
+
+  return file.outputPath
+}
+
+export function createPreprocessor (options: ProcessingOptions = {}) {
+  return (fileObject: FileObject) => processFile(options, fileObject)
 }

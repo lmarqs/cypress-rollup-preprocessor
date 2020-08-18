@@ -77,9 +77,7 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, '{')
 
-    await Bluebird.delay(1000)
-
-    await expect(_emit).calledWith('rerun')
+    await retry(() => expect(_emit).calledWith('rerun'))
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
@@ -92,8 +90,27 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await Bluebird.delay(1000)
-
-    await expect(_emit).calledWith('rerun')
+    await retry(() => expect(_emit).calledWith('rerun'))
   })
 })
+
+function retry <T> (fn: () => T, timeout = 1000) {
+  let timedOut = false
+
+  setTimeout(() => timedOut = true, timeout)
+  const tryFn: () => Bluebird<T> = () => {
+    return Bluebird.try(() => {
+      return fn()
+    })
+
+    .catch((err) => {
+      if (timedOut) {
+        throw err
+      }
+
+      return Bluebird.delay(100).then(() => tryFn())
+    })
+  }
+
+  return tryFn()
+}

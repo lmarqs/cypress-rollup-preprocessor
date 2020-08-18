@@ -1,3 +1,15 @@
+# [0.4.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.3.0...v0.4.0) (2020-08-18)
+
+
+### Bug Fixes
+
+* fix cache on rebuild ([c035a8e](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/c035a8e2c697f4093da9f7a56fb1d750d6d6c0cf))
+
+
+### Features
+
+* allow to import using commonjs ([04394e9](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/04394e9ff8f947b8560677e15bc66fd7faf10bc2))
+
 # [0.3.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.2.0...v0.3.0) (2020-08-18)
 
 

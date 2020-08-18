@@ -1,4 +1,4 @@
-import { rollup, watch, OutputOptions, RollupOptions, RollupWatcher } from 'rollup'
+import { rollup, watch, OutputOptions, RollupOptions } from 'rollup'
 import { EventEmitter } from 'events'
 
 interface ProcessingOptions {
@@ -14,11 +14,11 @@ export type FileObject =
   }
   ;
 
-const watchers: Record<string, RollupWatcher> = {}
+const cache: Record<string, string> = {}
 
 async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
-  if (watchers[file.filePath]) {
-    return file.filePath
+  if (cache[file.filePath]) {
+    return cache[file.filePath]
   }
 
   const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
@@ -42,16 +42,18 @@ async function processFile (options: ProcessingOptions, file: FileObject): Promi
 
     file.on('close', () => {
       watcher.close()
-      delete watchers[file.filePath]
+      delete cache[file.filePath]
     })
 
     watcher.on('event', (e) => {
+      if (e.code === 'BUNDLE_END') {
+        cache[e.input.toString()] = e.output[0]
+      }
+
       if (e.code === 'END') {
         file.emit('rerun')
       }
     })
-
-    watchers[file.filePath] = watcher
   }
 
   return file.outputPath

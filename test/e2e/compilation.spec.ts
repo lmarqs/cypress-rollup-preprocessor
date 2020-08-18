@@ -1,4 +1,3 @@
-import Bluebird from 'bluebird'
 import { EventEmitter } from 'events'
 import chai, { expect } from 'chai'
 import fs from 'fs-extra'
@@ -6,6 +5,7 @@ import path from 'path'
 import snapshot from 'snap-shot-it'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
+import retry from 'bluebird-retry'
 
 import { createPreprocessor, FileObject } from '../../src/preprocessor'
 
@@ -77,7 +77,7 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, '{')
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 0, interval: 100, backoff: 10 })
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
@@ -90,27 +90,6 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 0, interval: 100, backoff: 10 })
   })
 })
-
-function retry <T> (fn: () => T, timeout = 1000) {
-  let timedOut = false
-
-  setTimeout(() => timedOut = true, timeout)
-  const tryFn: () => Bluebird<T> = () => {
-    return Bluebird.try(() => {
-      return fn()
-    })
-
-    .catch((err) => {
-      if (timedOut) {
-        throw err
-      }
-
-      return Bluebird.delay(100).then(() => tryFn())
-    })
-  }
-
-  return tryFn()
-}

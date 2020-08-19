@@ -66,6 +66,10 @@
   color: ff9800
 - name: v³ ⋅ minor (experimental)
   color: ffc107
+- name: dependencies
+  color: 0366d6
+- name: security
+  color: cb2431
 - name: x¹ ⋅ abandoned
   color: cfd8dc
 - name: x² ⋅ could not reproduce

@@ -4,7 +4,7 @@ import { FileObject } from './types'
 import { build } from './build'
 
 interface ProcessingOptions {
-  rollupOptions?: rollup.RollupOptions
+  rollupOptions?: Partial<rollup.RollupOptions>
 }
 
 async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {

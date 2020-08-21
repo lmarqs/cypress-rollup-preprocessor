@@ -96,9 +96,9 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, '{')
 
-    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 })
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 60_000 })
   })
-  .timeout(10_000)
+  .timeout(60_000)
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
     file = createFile({ shouldWatch: true })
@@ -110,7 +110,7 @@ describe('rollup createPreprocessor - e2e', () => {
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 })
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 60_000 })
   })
-  .timeout(10_000)
+  .timeout(60_000)
 })

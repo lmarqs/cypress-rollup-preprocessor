@@ -7,7 +7,8 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import { createPreprocessor, FileObject } from '../../src/preprocessor'
+import { createPreprocessor } from '../../src/preprocessor'
+import { FileObject } from '../../src/types'
 
 chai.use(sinonChai)
 

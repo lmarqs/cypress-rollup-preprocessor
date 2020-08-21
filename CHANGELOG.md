@@ -1,3 +1,16 @@
+## [0.4.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.0...v0.4.1) (2020-08-21)
+
+
+### Bug Fixes
+
+* lint issues ([43ee77e](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/43ee77e8c5ec84b6f0989ac50cec4451ca2258a0))
+* triggers rerun on syntax error ([ed50e22](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/ed50e22feb6d11056e7a41295de18748dd16fdee))
+
+
+### Reverts
+
+* Revert "test: inrease test timeout" ([ac5a3c9](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/ac5a3c97c4b7e9d3b0ae1b449ce70f2386e0ab6e))
+
 # [0.4.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.3.0...v0.4.0) (2020-08-18)
 
 

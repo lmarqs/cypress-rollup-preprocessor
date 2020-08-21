@@ -94,10 +94,9 @@ describe('rollup createPreprocessor - e2e', () => {
 
     const _emit = sinon.spy(file, 'emit')
 
-    await Promise.all([
-      fs.outputFile(file.filePath, '{'),
-      retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 }),
-    ])
+    await fs.outputFile(file.filePath, '{')
+
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 })
   })
   .timeout(10_000)
 
@@ -109,10 +108,9 @@ describe('rollup createPreprocessor - e2e', () => {
 
     expect(_emit).not.to.be.calledWith('rerun')
 
-    await Promise.all([
-      fs.outputFile(file.filePath, 'console.log()'),
-      retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 }),
-    ])
+    await fs.outputFile(file.filePath, 'console.log()')
+
+    await retry(() => expect(_emit).calledWith('rerun'), { timeout: 10_000 })
   })
   .timeout(10_000)
 })

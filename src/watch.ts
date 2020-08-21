@@ -1,4 +1,4 @@
-import rollup from 'rollup'
+import * as rollup from 'rollup'
 import { FileObject } from './types'
 
 export const watchOutputCache: Record<string, string> = {}

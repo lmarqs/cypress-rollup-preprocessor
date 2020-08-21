@@ -1,4 +1,4 @@
-import rollup from 'rollup'
+import * as rollup from 'rollup'
 
 export async function build (rollupOptions: rollup.RollupOptions, outputOptions: rollup.OutputOptions) {
   const rollupBuild = await rollup.rollup(rollupOptions)

@@ -46,6 +46,25 @@ describe('rollup createPreprocessor - e2e', () => {
     })
   })
 
+  it('correctly preprocesses the file using plugins', () => {
+    file = createFile({ name: 'exemple_spec.ts' })
+    const options = {
+      rollupOptions: {
+        plugins: [require('rollup-plugin-typescript2')({
+          tsconfigOverride: {
+            compilerOptions: {
+              module: 'esnext',
+            },
+          },
+        })],
+      },
+    }
+
+    return createPreprocessor(options)(file).then((outputPath) => {
+      snapshot(fs.readFileSync(outputPath).toString())
+    })
+  })
+
   it('has less verbose "Module not found" error', async () => {
     file = createFile({ name: 'imports_nonexistent_file_spec.js' })
 

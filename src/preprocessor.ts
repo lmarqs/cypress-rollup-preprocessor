@@ -59,6 +59,6 @@ async function processFile (options: ProcessingOptions, file: FileObject): Promi
   return file.outputPath
 }
 
-export function createPreprocessor(options: ProcessingOptions = {}) {
+export function createPreprocessor (options: ProcessingOptions = {}) {
   return (fileObject: FileObject) => processFile(options, fileObject)
 }

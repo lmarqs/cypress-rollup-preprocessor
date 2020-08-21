@@ -1,3 +1,13 @@
+## [0.4.2](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.1...v0.4.2) (2020-08-21)
+
+
+### Bug Fixes
+
+* imports ([d0a660f](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/d0a660ff7e618dfd8ec6baf79c12e930231ba5a9))
+* remove cache for output with error ([75f9eb7](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/75f9eb7c04028e367ddfa05adb033b06510919f5))
+* rollupOptions type ([acd16a4](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/acd16a4dbb9b94fd80e2cd331d95dc20640b8689))
+* tests ([76c64c5](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/76c64c534440707134e5a377a0a354dd43da26af))
+
 ## [0.4.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.0...v0.4.1) (2020-08-21)
 
 

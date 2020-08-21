@@ -11,7 +11,7 @@
 First install [node.js](http://nodejs.org/). Then:
 
 ```sh
-npm install cypress-rollup-preprocessor --save
+npm install cypress-rollup-preprocessor --save-dev
 ```
 
 This package relies on the following [peer dependencies](https://docs.npmjs.com/files/package.json#peerdependencies):

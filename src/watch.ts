@@ -15,12 +15,19 @@ export function watch (rollupOptions: rollup.RollupOptions, outputOptions: rollu
   })
 
   rollupWatcher.on('event', (e) => {
-    if (e.code === 'BUNDLE_END') {
-      watchOutputCache[file.filePath] = e.output[0]
-    }
-
-    if (['END', 'ERROR'].includes(e.code)) {
-      file.emit('rerun')
+    switch (e.code) {
+      case 'BUNDLE_END':
+        watchOutputCache[file.filePath] = e.output[0]
+        break
+      case 'ERROR':
+        delete watchOutputCache[file.filePath]
+        file.emit('rerun')
+        break
+      case 'END':
+        file.emit('rerun')
+        break
+      default:
+        break
     }
   })
 }

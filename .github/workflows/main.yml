@@ -24,7 +24,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         name: Run tests
-    - uses: marsam/codeclimate-action@master
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
       with:
-        command: npm run coverage
-        reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}
+        coverageCommand: npm run coverage
+        coverageLocations: |
+          ${{github.workspace}}/coverage/lcov.info:lcov

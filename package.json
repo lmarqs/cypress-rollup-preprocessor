@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "shx rm -rf dist",
     "build": "rollup --config rollup.config.ts",
-    "coverage": "nyc report --reporter=text-lcov",
+    "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "lint": "npm-run-all lint:*",
     "lint:commit": "commitlint --from master",
     "lint:js": "eslint --ext .js,.jsx,.json,.ts,.tsx .",

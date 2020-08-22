@@ -1,1 +1,1 @@
-export { createPreprocessor as default } from './preprocessor'
+export { preprocessor as default, PreprocessorOptions, FileObject } from './preprocessor'

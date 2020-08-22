@@ -13,15 +13,15 @@ export type FileObject =
   }
   ;
 
-export interface ProcessingOptions {
+export interface PreprocessorOptions {
   rollupOptions?: Partial<RollupOptions>
 }
 
-export function createPreprocessor (options: ProcessingOptions = {}) {
+export function preprocessor (options: PreprocessorOptions = {}) {
   return async (file: FileObject) => watchersOutput[file.filePath] ?? processFile(options, file)
 }
 
-async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
+async function processFile (options: PreprocessorOptions, file: FileObject): Promise<string> {
   const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
     input: file.filePath,
   })

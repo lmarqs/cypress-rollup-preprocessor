@@ -7,7 +7,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import { createPreprocessor, FileObject } from '../../src/preprocessor'
+import preprocessor, { FileObject } from '../../src'
 
 chai.use(sinonChai)
 
@@ -41,7 +41,7 @@ describe('rollup createPreprocessor - e2e', () => {
   it('correctly preprocesses the file', () => {
     file = createFile()
 
-    return createPreprocessor()(file).then((outputPath) => {
+    return preprocessor()(file).then((outputPath) => {
       snapshot(fs.readFileSync(outputPath).toString())
     })
   })
@@ -60,7 +60,7 @@ describe('rollup createPreprocessor - e2e', () => {
       },
     }
 
-    return createPreprocessor(options)(file).then((outputPath) => {
+    return preprocessor(options)(file).then((outputPath) => {
       snapshot(fs.readFileSync(outputPath).toString())
     })
   })
@@ -70,13 +70,13 @@ describe('rollup createPreprocessor - e2e', () => {
 
     const _emit = sinon.spy(file, 'emit')
 
-    await createPreprocessor()(file)
+    await preprocessor()(file)
 
     await fs.outputFile(file.filePath, `console.log()`)
 
     await retry(() => expect(_emit).calledWith('rerun'))
 
-    return createPreprocessor()(file).then((outputPath) => {
+    return preprocessor()(file).then((outputPath) => {
       snapshot(fs.readFileSync(outputPath).toString())
     })
   })
@@ -85,8 +85,8 @@ describe('rollup createPreprocessor - e2e', () => {
     file = createFile({ shouldWatch: true })
 
     const outputs = await Promise.all([
-      createPreprocessor()(file),
-      createPreprocessor()(file),
+      preprocessor()(file),
+      preprocessor()(file),
     ])
 
     expect(fs.readFileSync(outputs[0]).toString()).to.be.equal(fs.readFileSync(outputs[1]).toString())
@@ -96,7 +96,7 @@ describe('rollup createPreprocessor - e2e', () => {
     file = createFile({ name: 'imports_nonexistent_file_spec.js' })
 
     try {
-      await createPreprocessor()(file)
+      await preprocessor()(file)
       throw new Error('Should not resolve')
     } catch (err) {
       snapshot(normalizeErrMessage(err.message))
@@ -107,7 +107,7 @@ describe('rollup createPreprocessor - e2e', () => {
     file = createFile({ name: 'syntax_error_spec.js' })
 
     try {
-      await createPreprocessor()(file)
+      await preprocessor()(file)
       throw new Error('Should not resolve')
     } catch (err) {
       snapshot(normalizeErrMessage(err.message))
@@ -117,7 +117,7 @@ describe('rollup createPreprocessor - e2e', () => {
   it('triggers rerun on syntax error', async () => {
     file = createFile({ shouldWatch: true })
 
-    await createPreprocessor()(file)
+    await preprocessor()(file)
 
     const _emit = sinon.spy(file, 'emit')
 
@@ -130,7 +130,7 @@ describe('rollup createPreprocessor - e2e', () => {
     file = createFile({ shouldWatch: true })
     const _emit = sinon.spy(file, 'emit')
 
-    await createPreprocessor()(file)
+    await preprocessor()(file)
 
     expect(_emit).not.to.be.calledWith('rerun')
 
@@ -144,7 +144,7 @@ describe('rollup createPreprocessor - e2e', () => {
     const _emit = sinon.spy(file, 'emit')
 
     try {
-      await createPreprocessor()(file)
+      await preprocessor()(file)
       throw new Error('Should not resolve')
     } catch (err) {
       expect(err.message).to.not.be.empty

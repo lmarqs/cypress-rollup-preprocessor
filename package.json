@@ -6,6 +6,7 @@
   "scripts": {
     "prebuild": "shx rm -rf dist",
     "build": "rollup --config rollup.config.ts",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
     "lint": "npm-run-all lint:*",
     "lint:commit": "commitlint --from master",
     "lint:js": "eslint --ext .js,.jsx,.json,.ts,.tsx .",
@@ -13,8 +14,7 @@
     "lint:yaml": "yamllint '**/*.{yaml,yml}' --ignore='node_modules/**/*'",
     "release": "npx semantic-release",
     "pretest": "shx rm -rf test/_test-output",
-    "test": "nyc --reporter=html --reporter=text mocha test/**/*.spec.*",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov"
+    "test": "nyc --reporter=html --reporter=text mocha test/**/*.spec.*"
   },
   "dependencies": {},
   "devDependencies": {

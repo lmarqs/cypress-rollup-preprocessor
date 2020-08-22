@@ -17,11 +17,11 @@ export interface ProcessingOptions {
   rollupOptions?: Partial<RollupOptions>
 }
 
-async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
-  if (watchersOutput[file.filePath]) {
-    return watchersOutput[file.filePath]
-  }
+export function createPreprocessor (options: ProcessingOptions = {}) {
+  return async (file: FileObject) => watchersOutput[file.filePath] ?? processFile(options, file)
+}
 
+async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
   const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
     input: file.filePath,
   })
@@ -36,8 +36,4 @@ async function processFile (options: ProcessingOptions, file: FileObject): Promi
   }
 
   return build(rollupOptions, outputOptions)
-}
-
-export function createPreprocessor (options: ProcessingOptions = {}) {
-  return (fileObject: FileObject) => processFile(options, fileObject)
 }

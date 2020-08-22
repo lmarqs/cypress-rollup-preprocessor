@@ -26,5 +26,5 @@ jobs:
         name: Run tests
     - uses: marsam/codeclimate-action@master
       with:
-        command: nyc report --reporter=text-lcov > coverage.lcov
+        command: npx nyc report --reporter=text-lcov > coverage.lcov
         reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}

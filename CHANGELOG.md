@@ -1,3 +1,10 @@
+## [0.4.3](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.2...v0.4.3) (2020-08-22)
+
+
+### Bug Fixes
+
+* watch mode for exception flows ([f63e008](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/f63e0083abf433ef9a22f87f0a215eba1dc49439))
+
 ## [0.4.2](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.1...v0.4.2) (2020-08-21)
 
 

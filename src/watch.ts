@@ -13,30 +13,24 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
     output: outputOptions,
   })
 
-  file.on('close', createFileCloseListener(watcherKey))
+  file.on('close', createFileClosedListener(watcherKey))
 
-  watcher.on('event', createBuildFinishListener(file))
+  watcher.on('event', createBuildFinishedListener(file))
 
   return new Promise((resolve, reject) => {
-    watcher.on('event', createOuputEmittedListener(watcherKey, resolve, reject))
+    watcher.on('event', createOutputEmittedListener(watcherKey, resolve, reject))
   })
 }
 
-function createOuputEmittedListener (watcherKey: string, resolve: (output: string) => any, reject: (reason: any) => any) {
-  return (e: RollupWatcherEvent) => {
-    if (e.code === 'BUNDLE_END') {
-      watchersOutput[watcherKey] = e.output[0]
-      resolve(watchersOutput[watcherKey])
-    }
-
-    if (e.code === 'ERROR') {
-      delete watchersOutput[watcherKey]
-      reject(e.error)
-    }
+function createFileClosedListener (watcherKey: string) {
+  return () => {
+    watchers[watcherKey]?.close()
+    delete watchers[watcherKey]
+    delete watchersOutput[watcherKey]
   }
 }
 
-function createBuildFinishListener (file: EventEmitter) {
+function createBuildFinishedListener (file: EventEmitter) {
   let firstBuild = true
 
   return (e: RollupWatcherEvent) => {
@@ -50,10 +44,16 @@ function createBuildFinishListener (file: EventEmitter) {
   }
 }
 
-function createFileCloseListener (watcherKey: string) {
-  return () => {
-    watchers[watcherKey]?.close()
-    delete watchers[watcherKey]
-    delete watchersOutput[watcherKey]
+function createOutputEmittedListener (watcherKey: string, resolve: (output: string) => any, reject: (reason: any) => any) {
+  return (e: RollupWatcherEvent) => {
+    if (e.code === 'BUNDLE_END') {
+      watchersOutput[watcherKey] = e.output[0]
+      resolve(watchersOutput[watcherKey])
+    }
+
+    if (e.code === 'ERROR') {
+      delete watchersOutput[watcherKey]
+      reject(e.error)
+    }
   }
 }

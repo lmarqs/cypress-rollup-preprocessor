@@ -1,7 +1,8 @@
 # cypress-rollup-preprocessor
 
 ![Build](https://github.com/lmarqs/cypress-rollup-preprocessor/workflows/Build/badge.svg?branch=master)
-[![codecov](https://codecov.io/gh/lmarqs/cypress-rollup-preprocessor/branch/master/graph/badge.svg)](https://codecov.io/gh/lmarqs/cypress-rollup-preprocessor)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7b0c1699b09bf771af2b/maintainability)](https://codeclimate.com/github/lmarqs/cypress-rollup-preprocessor/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7b0c1699b09bf771af2b/test_coverage)](https://codeclimate.com/github/lmarqs/cypress-rollup-preprocessor/test_coverage)
 ![David](https://img.shields.io/david/peer/lmarqs/cypress-rollup-preprocessor)
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)

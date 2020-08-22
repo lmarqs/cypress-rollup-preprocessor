@@ -13,8 +13,7 @@
     "lint:yaml": "yamllint '**/*.{yaml,yml}' --ignore='node_modules/**/*'",
     "release": "npx semantic-release",
     "pretest": "shx rm -rf test/_test-output",
-    "test": "nyc --reporter=html --reporter=text mocha test/**/*.spec.*",
-    "posttest": "nyc report --reporter=text-lcov > coverage.lcov"
+    "test": "nyc --reporter=html --reporter=text mocha test/**/*.spec.*"
   },
   "dependencies": {},
   "devDependencies": {

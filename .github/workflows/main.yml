@@ -23,6 +23,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    - uses: codecov/codecov-action@v1
+        name: Run tests
+    - uses: marsam/codeclimate-action@master
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        command: nyc report --reporter=text-lcov > coverage.lcov
+        reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}

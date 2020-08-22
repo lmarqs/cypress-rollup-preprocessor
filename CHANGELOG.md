@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.5...v0.5.0) (2020-08-22)
+
+
+### Features
+
+* add support for multiple watchers for the same file ([f0cd0db](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/f0cd0dbadcfd028c068451660e7c469c0761472b))
+
 ## [0.4.5](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.4...v0.4.5) (2020-08-22)
 
 

@@ -1,19 +1,22 @@
-import { watch as rollupWatcher, RollupOptions, OutputOptions } from 'rollup'
+import { watch as rollupWatcher, RollupOptions, OutputOptions, RollupWatcher } from 'rollup'
 import { EventEmitter } from 'events'
 
 export const watchersOutput: Record<string, string> = {}
 
-export function watch (rollupOptions: RollupOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
-  const watchersOutputKey = rollupOptions.input!.toString()
+export const watchers: Record<string, RollupWatcher> = {}
 
-  const watcher = rollupWatcher({
+export function watch (rollupOptions: RollupOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
+  const watcherKey = rollupOptions.input!.toString()
+
+  const watcher = watchers[watcherKey] = watchers[watcherKey] ?? rollupWatcher({
     ...rollupOptions,
     output: outputOptions,
   })
 
   file.on('close', () => {
-    delete watchersOutput[watchersOutputKey]
-    watcher.close()
+    watchers[watcherKey].close()
+    delete watchers[watcherKey]
+    delete watchersOutput[watcherKey]
   })
 
   let firstBuild = true
@@ -29,12 +32,12 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
       }
 
       if (e.code === 'BUNDLE_END') {
-        watchersOutput[watchersOutputKey] = e.output[0]
-        resolve(watchersOutput[watchersOutputKey])
+        watchersOutput[watcherKey] = e.output[0]
+        resolve(watchersOutput[watcherKey])
       }
 
       if (e.code === 'ERROR') {
-        delete watchersOutput[watchersOutputKey]
+        delete watchersOutput[watcherKey]
         reject(e.error)
       }
     })

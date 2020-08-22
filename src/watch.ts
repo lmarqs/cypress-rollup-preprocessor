@@ -1,4 +1,4 @@
-import { watch as rollupWatcher, RollupOptions, OutputOptions, RollupWatcher } from 'rollup'
+import { watch as rollupWatcher, RollupOptions, OutputOptions, RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { EventEmitter } from 'events'
 
 export const watchersOutput: Record<string, string> = {}
@@ -13,33 +13,47 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
     output: outputOptions,
   })
 
-  file.on('close', () => {
-    watcher.close()
-    delete watchers[watcherKey]
-    delete watchersOutput[watcherKey]
-  })
+  file.on('close', createFileCloseListener(watcherKey))
 
-  let firstBuild = true
+  watcher.on('event', createBuildFinishListener(file))
 
   return new Promise((resolve, reject) => {
-    watcher.on('event', (e) => {
-      if (e.code === 'BUNDLE_END') {
-        watchersOutput[watcherKey] = e.output[0]
-        resolve(watchersOutput[watcherKey])
-      }
-
-      if (e.code === 'ERROR') {
-        delete watchersOutput[watcherKey]
-        reject(e.error)
-      }
-
-      if (['END', 'ERROR'].includes(e.code)) {
-        if (firstBuild) {
-          firstBuild = false
-        } else {
-          file.emit('rerun')
-        }
-      }
-    })
+    watcher.on('event', createOuputEmittedListener(watcherKey, resolve, reject))
   })
+}
+
+function createOuputEmittedListener (watcherKey: string, resolve: (output: string) => any, reject: (reason: any) => any) {
+  return (e: RollupWatcherEvent) => {
+    if (e.code === 'BUNDLE_END') {
+      watchersOutput[watcherKey] = e.output[0]
+      resolve(watchersOutput[watcherKey])
+    }
+
+    if (e.code === 'ERROR') {
+      delete watchersOutput[watcherKey]
+      reject(e.error)
+    }
+  }
+}
+
+function createBuildFinishListener (file: EventEmitter) {
+  let firstBuild = true
+
+  return (e: RollupWatcherEvent) => {
+    if (['END', 'ERROR'].includes(e.code)) {
+      if (firstBuild) {
+        firstBuild = false
+      } else {
+        file.emit('rerun')
+      }
+    }
+  }
+}
+
+function createFileCloseListener (watcherKey: string) {
+  return () => {
+    watchers[watcherKey]?.close()
+    delete watchers[watcherKey]
+    delete watchersOutput[watcherKey]
+  }
 }

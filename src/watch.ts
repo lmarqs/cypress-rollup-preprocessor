@@ -14,7 +14,7 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
   })
 
   file.on('close', () => {
-    watchers[watcherKey].close()
+    watcher.close()
     delete watchers[watcherKey]
     delete watchersOutput[watcherKey]
   })
@@ -23,14 +23,6 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
 
   return new Promise((resolve, reject) => {
     watcher.on('event', (e) => {
-      if (['END', 'ERROR'].includes(e.code)) {
-        if (firstBuild) {
-          firstBuild = false
-        } else {
-          file.emit('rerun')
-        }
-      }
-
       if (e.code === 'BUNDLE_END') {
         watchersOutput[watcherKey] = e.output[0]
         resolve(watchersOutput[watcherKey])
@@ -39,6 +31,14 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
       if (e.code === 'ERROR') {
         delete watchersOutput[watcherKey]
         reject(e.error)
+      }
+
+      if (['END', 'ERROR'].includes(e.code)) {
+        if (firstBuild) {
+          firstBuild = false
+        } else {
+          file.emit('rerun')
+        }
       }
     })
   })

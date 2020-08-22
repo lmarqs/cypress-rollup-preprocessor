@@ -81,6 +81,17 @@ describe('rollup createPreprocessor - e2e', () => {
     })
   })
 
+  it('support watching the same file multiple times', async () => {
+    file = createFile({ shouldWatch: true })
+
+    const outputs = await Promise.all([
+      createPreprocessor()(file),
+      createPreprocessor()(file),
+    ])
+
+    expect(fs.readFileSync(outputs[0]).toString()).to.be.equal(fs.readFileSync(outputs[1]).toString())
+  })
+
   it('has less verbose "Module not found" error', async () => {
     file = createFile({ name: 'imports_nonexistent_file_spec.js' })
 

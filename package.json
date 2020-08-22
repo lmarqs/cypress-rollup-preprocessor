@@ -76,7 +76,7 @@
     "type": "git",
     "url": "git@github.com:lmarqs/cypress-rollup-preprocessor.git"
   },
-  "homepage": "https://github.com/lmarqs/cypress-rollup-preprocessor",
+  "homepage": "https://lmarqs.github.io/cypress-rollup-preprocessor",
   "author": {
     "name": "Lucas Marques de Paula",
     "url": "https://github.com/lmarqs"

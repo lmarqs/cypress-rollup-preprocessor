@@ -1,3 +1,10 @@
+## [0.4.4](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.3...v0.4.4) (2020-08-22)
+
+
+### Bug Fixes
+
+* lint issues ([20af9da](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/20af9da7a70c2720af040660023b4b9bcfee808c))
+
 ## [0.4.3](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.4.2...v0.4.3) (2020-08-22)
 
 

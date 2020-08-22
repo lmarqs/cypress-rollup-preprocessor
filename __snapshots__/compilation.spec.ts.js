@@ -31,6 +31,18 @@ exports['rollup createPreprocessor - e2e correctly preprocesses the file using p
 
 `
 
+exports['rollup createPreprocessor - e2e correctly reprocesses the file after a modification 1'] = `
+(function (factory) {
+\ttypeof define === 'function' && define.amd ? define(factory) :
+\tfactory();
+}((function () { 'use strict';
+
+\tconsole.log();
+
+})));
+
+`
+
 exports['rollup createPreprocessor - e2e has less verbose "Module not found" error 1'] = `
 Could not resolve './does/not-exist' from test/_test-output/imports_nonexistent_file_spec.js
 `

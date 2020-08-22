@@ -1,33 +1,41 @@
-import rollup from 'rollup'
-import { watch, watchOutputCache } from './watch'
-import { FileObject } from './types'
+import { EventEmitter } from 'events'
+import { RollupOptions, OutputOptions } from 'rollup'
+
+import { watch, watchersOutput } from './watch'
 import { build } from './build'
 
-interface ProcessingOptions {
-  rollupOptions?: Partial<rollup.RollupOptions>
+export type FileObject =
+  & EventEmitter
+  & {
+    filePath: string
+    outputPath: string
+    shouldWatch: boolean
+  }
+  ;
+
+export interface ProcessingOptions {
+  rollupOptions?: Partial<RollupOptions>
 }
 
 async function processFile (options: ProcessingOptions, file: FileObject): Promise<string> {
-  if (watchOutputCache[file.filePath]) {
-    return watchOutputCache[file.filePath]
+  if (watchersOutput[file.filePath]) {
+    return watchersOutput[file.filePath]
   }
 
-  const rollupOptions: rollup.RollupOptions = Object.assign({}, options.rollupOptions, {
+  const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
     input: file.filePath,
   })
 
-  const outputOptions: rollup.OutputOptions = {
+  const outputOptions: OutputOptions = {
     file: file.outputPath,
     format: 'umd',
   }
 
-  await build(rollupOptions, outputOptions)
-
   if (file.shouldWatch) {
-    watch(rollupOptions, outputOptions, file)
+    return watch(rollupOptions, outputOptions, file)
   }
 
-  return file.outputPath
+  return build(rollupOptions, outputOptions)
 }
 
 export function createPreprocessor (options: ProcessingOptions = {}) {

@@ -7,8 +7,7 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import { createPreprocessor } from '../../src/preprocessor'
-import { FileObject } from '../../src/types'
+import { createPreprocessor, FileObject } from '../../src/preprocessor'
 
 chai.use(sinonChai)
 
@@ -66,6 +65,22 @@ describe('rollup createPreprocessor - e2e', () => {
     })
   })
 
+  it('correctly reprocesses the file after a modification', async () => {
+    file = createFile({ shouldWatch: true })
+
+    const _emit = sinon.spy(file, 'emit')
+
+    await createPreprocessor()(file)
+
+    await fs.outputFile(file.filePath, `console.log()`)
+
+    await retry(() => expect(_emit).calledWith('rerun'))
+
+    return createPreprocessor()(file).then((outputPath) => {
+      snapshot(fs.readFileSync(outputPath).toString())
+    })
+  })
+
   it('has less verbose "Module not found" error', async () => {
     file = createFile({ name: 'imports_nonexistent_file_spec.js' })
 
@@ -105,6 +120,24 @@ describe('rollup createPreprocessor - e2e', () => {
     const _emit = sinon.spy(file, 'emit')
 
     await createPreprocessor()(file)
+
+    expect(_emit).not.to.be.calledWith('rerun')
+
+    await fs.outputFile(file.filePath, 'console.log()')
+
+    await retry(() => expect(_emit).calledWith('rerun'))
+  })
+
+  it('does not call rerun on errored initial build, but on subsequent builds', async () => {
+    file = createFile({ name: 'syntax_error_spec.js', shouldWatch: true })
+    const _emit = sinon.spy(file, 'emit')
+
+    try {
+      await createPreprocessor()(file)
+      throw new Error('Should not resolve')
+    } catch (err) {
+      expect(err.message).to.not.be.empty
+    }
 
     expect(_emit).not.to.be.calledWith('rerun')
 

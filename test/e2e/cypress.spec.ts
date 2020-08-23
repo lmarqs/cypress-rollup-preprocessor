@@ -8,6 +8,8 @@ describe('cypress - e2e', async () => {
       CYPRESS_INTERNAL_E2E_TESTS: '1',
     }
 
+    spawnSync('npx', ['cypress', 'verify'])
+
     const result = spawnSync('npx', ['cypress', 'run'], {
       encoding: 'utf8',
       env: {

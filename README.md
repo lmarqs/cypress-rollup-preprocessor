@@ -91,14 +91,15 @@ npm test
 ```
 
 ## Inspiration
+
 Many test approaches and patterns were copied from:
 
-- https://github.com/cypress-io/cypress-webpack-preprocessor
-- https://github.com/cypress-io/cypress-watch-preprocessor
+- <https://github.com/cypress-io/cypress-webpack-preprocessor>
+- <https://github.com/cypress-io/cypress-watch-preprocessor>
 
 ## Alternatives
 
-- https://github.com/bahmutov/cy-rollup
+- <https://github.com/bahmutov/cy-rollup>
 
 ## License
 

@@ -4,17 +4,19 @@ update_configs:
     directory: "/"
     update_schedule: "daily"
     commit_message:
-      prefix: "chore"
+      prefix: "weekly"
       include_scope: true
+
   - package_manager: "javascript"
-      directory: "/examples/basic"
-      update_schedule: "daily"
-      commit_message:
-        prefix: "chore"
-        include_scope: true
+    directory: "/examples/basic"
+    update_schedule: "daily"
+    commit_message:
+      prefix: "weekly"
+      include_scope: true
+
   - package_manager: "javascript"
-        directory: "/examples/typescript"
-        update_schedule: "daily"
-        commit_message:
-          prefix: "chore"
-          include_scope: true
+    directory: "/examples/typescript"
+    update_schedule: "daily"
+    commit_message:
+      prefix: "weekly"
+      include_scope: true

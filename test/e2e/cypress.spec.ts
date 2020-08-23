@@ -3,7 +3,13 @@ import snapshot from 'snap-shot-it'
 
 describe('cypress - e2e', async () => {
   it(`test: cypress integration`, async () => {
-    const result = spawnSync('npx', ['cypress', 'run'], { encoding: 'utf8' })
+    const result = spawnSync('npx', ['cypress', 'run'], {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        NO_COLOR: '1',
+      },
+    })
     const output = sanitizeOutput(result.stdout.toString())
 
     snapshot(output)

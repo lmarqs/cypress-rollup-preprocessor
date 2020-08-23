@@ -6,3 +6,15 @@ update_configs:
     commit_message:
       prefix: "chore"
       include_scope: true
+  - package_manager: "javascript"
+      directory: "/examples/basic"
+      update_schedule: "daily"
+      commit_message:
+        prefix: "chore"
+        include_scope: true
+  - package_manager: "javascript"
+        directory: "/examples/typescript"
+        update_schedule: "daily"
+        commit_message:
+          prefix: "chore"
+          include_scope: true

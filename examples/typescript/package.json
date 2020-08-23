@@ -6,6 +6,7 @@
   "devDependencies": {
     "cypress": "4.5.0",
     "cypress-rollup-preprocessor": "file:../..",
+    "rollup": "^2.26.5",
     "rollup-plugin-typescript2": "^0.27.2",
     "typescript": "^3.9.7"
   }

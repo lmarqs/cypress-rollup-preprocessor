@@ -43,6 +43,10 @@ module.exports = (on) => {
 };
 ```
 
+### Checkout our example
+- [Basic](examples/basic)
+- [Using Typescript](examples/basic)
+
 ## Options
 
 Pass in options as the argument to `rollup`:

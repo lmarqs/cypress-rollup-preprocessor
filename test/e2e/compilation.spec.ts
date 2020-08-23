@@ -26,7 +26,7 @@ const createFile = ({ name = 'example_spec.js', shouldWatch = false } = {}) => {
   })
 }
 
-describe('rollup createPreprocessor - e2e', () => {
+describe('compilation - e2e', () => {
   let file: FileObject
 
   beforeEach(async () => {

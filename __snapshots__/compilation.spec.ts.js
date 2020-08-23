@@ -1,4 +1,4 @@
-exports['rollup createPreprocessor - e2e correctly preprocesses the file 1'] = `
+exports['compilation - e2e correctly preprocesses the file 1'] = `
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
   factory();
@@ -16,7 +16,7 @@ exports['rollup createPreprocessor - e2e correctly preprocesses the file 1'] = `
 
 `
 
-exports['rollup createPreprocessor - e2e correctly preprocesses the file using plugins 1'] = `
+exports['compilation - e2e correctly preprocesses the file using plugins 1'] = `
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
   factory();
@@ -31,7 +31,7 @@ exports['rollup createPreprocessor - e2e correctly preprocesses the file using p
 
 `
 
-exports['rollup createPreprocessor - e2e correctly reprocesses the file after a modification 1'] = `
+exports['compilation - e2e correctly reprocesses the file after a modification 1'] = `
 (function (factory) {
 \ttypeof define === 'function' && define.amd ? define(factory) :
 \tfactory();
@@ -43,10 +43,10 @@ exports['rollup createPreprocessor - e2e correctly reprocesses the file after a 
 
 `
 
-exports['rollup createPreprocessor - e2e has less verbose "Module not found" error 1'] = `
+exports['compilation - e2e has less verbose "Module not found" error 1'] = `
 Could not resolve './does/not-exist' from test/_test-output/imports_nonexistent_file_spec.js
 `
 
-exports['rollup createPreprocessor - e2e has less verbose syntax error 1'] = `
+exports['compilation - e2e has less verbose syntax error 1'] = `
 Unexpected token
 `

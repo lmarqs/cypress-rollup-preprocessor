@@ -1,0 +1,5 @@
+{
+  "ignorePatterns": [
+    "compile-error.spec.js"
+  ]
+}

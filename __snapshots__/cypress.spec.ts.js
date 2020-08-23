@@ -7,13 +7,14 @@ exports['cypress - e2e test: cypress integration 1'] = `
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Cypress:    *.*.*                                                                              │
   │ Browser:    Electron ** (headless)                                                             │
-  │ Specs:      3 found (compile-error.spec.js, fail.spec.js, success.spec..js)                    │
+  │ Specs:      4 found (compile-error.spec.js, fail.spec.js, runtime-error.spec.js, success.spec. │
+  │             js)                                                                                │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
                                                                                                     
-  Running:  compile-error.spec.js                                                           (1 of 3)
+  Running:  compile-error.spec.js                                                           (1 of 4)
 
 Oops...we found an error preparing this test file:
 
@@ -47,7 +48,7 @@ Fix the error in your code and re-run your tests.
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
                                                                                                     
-  Running:  fail.spec.js                                                                    (2 of 3)
+  Running:  fail.spec.js                                                                    (2 of 4)
 
 
   foo
@@ -86,11 +87,46 @@ Fix the error in your code and re-run your tests.
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
                                                                                                     
-  Running:  success.spec..js                                                                (3 of 3)
+  Running:  runtime-error.spec.js                                                           (3 of 4)
 
 
   foo
-    ✓ runs (***ms)
+    1) has runtime error
+
+
+  0 passing (***ms)
+  1 failing
+
+  1) foo
+       has runtime error:
+     Error: error thrown on purpose
+      at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/runtime-error.spec.js:8:13)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     runtime-error.spec.js                                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  success.spec.js                                                                 (4 of 4)
+
+
+  foo
+    ✓ works (***ms)
 
 
   1 passing (***ms)
@@ -107,7 +143,7 @@ Fix the error in your code and re-run your tests.
   │ Screenshots:  0                                                                                │
   │ Video:        false                                                                            │
   │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     success.spec..js                                                                 │
+  │ Spec Ran:     success.spec.js                                                                  │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
@@ -122,9 +158,11 @@ Fix the error in your code and re-run your tests.
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ ✖  fail.spec.js                             ***ms        1        -        1        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  success.spec..js                          ***ms        1        1        -        -        - │
+  │ ✖  runtime-error.spec.js                     ***ms        1        -        1        -        - │
+  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ ✔  success.spec.js                          ***ms        1        1        -        -        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✖  2 of 3 failed (67%)                      ***ms        2        1        2        -        -  
+    ✖  3 of 4 failed (75%)                      ***ms        3        1        3        -        -  
 
 
 `

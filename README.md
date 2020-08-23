@@ -37,13 +37,8 @@ This version is only compatible with rollup 2.x+
 In your project's [plugins file](https://on.cypress.io/guides/tooling/plugins-guide.html):
 
 ```javascript
-/// <reference types="cypress" />
-
 const rollupPreprocessor = require("cypress-rollup-preprocessor");
 
-/**
- * @type {Cypress.PluginConfig}
- */
 module.exports = (on) => {
   on("file:preprocessor", rollupPreprocessor());
 };

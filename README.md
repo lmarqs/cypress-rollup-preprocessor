@@ -43,9 +43,10 @@ module.exports = (on) => {
 };
 ```
 
-### Checkout our example
-- [Basic](examples/basic)
-- [Using Typescript](examples/basic)
+### Examples
+
+- [Basic](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/basic)
+- [Using Typescript](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/typescript)
 
 ## Options
 

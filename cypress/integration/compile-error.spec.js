@@ -1,3 +1,3 @@
-describe('foo', () => {
+describe('compile error', () => {
   it('has syntax error'() => {}})
 })

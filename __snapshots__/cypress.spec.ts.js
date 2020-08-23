@@ -7,8 +7,7 @@ exports['cypress - e2e test: cypress integration 1'] = `
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Cypress:    *.*.*                                                                              │
   │ Browser:    Electron ** (headless)                                                             │
-  │ Specs:      4 found (compile-error.spec.js, fail.spec.js, runtime-error.spec.js, success.spec. │
-  │             js)                                                                                │
+  │ Specs:      4 found (compile-error.spec.js, fail.spec.js, pass.spec.js, runtime-error.spec.js) │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
@@ -51,14 +50,14 @@ Fix the error in your code and re-run your tests.
   Running:  fail.spec.js                                                                    (2 of 4)
 
 
-  foo
+  fail on purpose
     1) fails
 
 
   0 passing (***ms)
   1 failing
 
-  1) foo
+  1) fail on purpose
        fails:
 
       AssertionError: expected 1 to be above 1
@@ -87,18 +86,53 @@ Fix the error in your code and re-run your tests.
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
                                                                                                     
-  Running:  runtime-error.spec.js                                                           (3 of 4)
+  Running:  pass.spec.js                                                                    (3 of 4)
 
 
-  foo
-    1) has runtime error
+  success
+    1) pass after ***ms
 
 
   0 passing (***ms)
   1 failing
 
-  1) foo
-       has runtime error:
+  1) success
+       pass after ***ms:
+     TypeError: cy.await is not a function
+      at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/pass.spec.js:8:10)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     pass.spec.js                                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  runtime-error.spec.js                                                           (4 of 4)
+
+
+  runtime error
+    1) throws a error
+
+
+  0 passing (***ms)
+  1 failing
+
+  1) runtime error
+       throws a error:
      Error: error thrown on purpose
       at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/runtime-error.spec.js:8:13)
 
@@ -120,33 +154,6 @@ Fix the error in your code and re-run your tests.
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 
-────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                    
-  Running:  success.spec.js                                                                 (4 of 4)
-
-
-  foo
-    ✓ works (***ms)
-
-
-  1 passing (***ms)
-
-
-  (Results)
-
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Tests:        1                                                                                │
-  │ Passing:      1                                                                                │
-  │ Failing:      0                                                                                │
-  │ Pending:      0                                                                                │
-  │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
-  │ Video:        false                                                                            │
-  │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     success.spec.js                                                                  │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-
 ====================================================================================================
 
   (Run Finished)
@@ -158,11 +165,11 @@ Fix the error in your code and re-run your tests.
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ ✖  fail.spec.js                             ***ms        1        -        1        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✖  runtime-error.spec.js                     ***ms        1        -        1        -        - │
+  │ ✖  pass.spec.js                              ***ms        1        -        1        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  success.spec.js                          ***ms        1        1        -        -        - │
+  │ ✖  runtime-error.spec.js                     ***ms        1        -        1        -        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✖  3 of 4 failed (75%)                      ***ms        3        1        3        -        -  
+    ✖  4 of 4 failed (100%)                     ***ms        3        -        4        -        -  
 
 
 `

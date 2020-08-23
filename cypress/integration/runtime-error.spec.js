@@ -1,5 +1,5 @@
-describe('foo', () => {
-  it('has runtime error', () => {
+describe('runtime error', () => {
+  it('throws a error', () => {
     throw new Error('error thrown on purpose')
   })
 })

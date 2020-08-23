@@ -78,11 +78,10 @@ Please read the [Contributing guidelines](CONTRIBUTING.md).
 
 ### Running Tests
 
-We are using [nodeunit](https://github.com/caolan/nodeunit) to test. To run
-tests, first install nodeunit and any dependencies via npm:
+To run tests, first install nodeunit and any dependencies via npm:
 
 ```sh
-npm install
+npm ci
 ```
 
 Run tests with:
@@ -90,6 +89,14 @@ Run tests with:
 ```sh
 npm test
 ```
+
+## Inspiration
+Many test approaches and patterns were copied from:
+- https://github.com/cypress-io/cypress-webpack-preprocessor
+- https://github.com/cypress-io/cypress-watch-preprocessor
+
+## Alternatives
+- https://github.com/bahmutov/cy-rollup
 
 ## License
 

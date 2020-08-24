@@ -50,3 +50,11 @@ Could not resolve './does/not-exist' from test/_test-output/imports_nonexistent_
 exports['compilation - e2e has less verbose syntax error 1'] = `
 Unexpected token
 `
+
+exports['compilation - e2e triggers rerun on syntax error 1'] = `
+Unexpected token
+`
+
+exports['compilation - e2e does not call rerun on errored initial build, but on subsequent builds 1'] = `
+Unexpected token
+`

@@ -26,15 +26,15 @@ describe('compilation - e2e', () => {
     file.emit('close')
   })
 
-  it('correctly preprocesses the file', () => {
+  it('correctly preprocesses the file', async () => {
     file = createFile()
 
     const outputPath = preprocessor()(file)
 
-    return assertOutput(outputPath)
+    await assertCompilationOutput(outputPath)
   })
 
-  it('correctly preprocesses the file using plugins', () => {
+  it('correctly preprocesses the file using plugins', async () => {
     file = createFile({ name: 'exemple_spec.ts' })
 
     const options = {
@@ -49,36 +49,36 @@ describe('compilation - e2e', () => {
       },
     }
 
-    const outputPath = preprocessor()(file)
+    const outputPath = preprocessor(options)(file)
 
-    return assertOutput(outputPath)
+    return assertCompilationOutput(outputPath)
   })
 
   it('correctly reprocesses the file after a modification', async () => {
     file = createFile({ shouldWatch: true })
 
-    const _emit = sinon.spy(file, 'emit')
+    const emitSpy = sinon.spy(file, 'emit')
 
     await preprocessor()(file)
 
     await fs.outputFile(file.filePath, `console.log()`)
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await waitForRerunCall(emitSpy)
 
     const outputPath = preprocessor()(file)
 
-    return assertOutput(outputPath)
+    return assertCompilationOutput(outputPath)
   })
 
   it('support watching the same file multiple times', async () => {
     file = createFile({ shouldWatch: true })
 
-    const outputs = await Promise.all([
+    const filesContents = await Promise.all([
       preprocessor()(file),
       preprocessor()(file),
-    ])
+    ].map(readFileContent))
 
-    expect(readFileContent(outputs[0])).to.be.equal(readFileContent(outputs[1]))
+    expect(filesContents[0]).to.be.equal(filesContents[1])
   })
 
   it('has less verbose "Module not found" error', async () => {
@@ -95,12 +95,9 @@ describe('compilation - e2e', () => {
   it('has less verbose syntax error', async () => {
     file = createFile({ name: 'syntax_error_spec.js' })
 
-    try {
-      await preprocessor()(file)
-      assert.fail()
-    } catch (err) {
-      assertError(err)
-    }
+    const error = preprocessor()(file)
+
+    await assertCompilationError(error)
   })
 
   it('triggers rerun on syntax error', async () => {
@@ -108,58 +105,57 @@ describe('compilation - e2e', () => {
 
     await preprocessor()(file)
 
-    const _emit = sinon.spy(file, 'emit')
+    const emitSpy = sinon.spy(file, 'emit')
 
     await fs.outputFile(file.filePath, '{')
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await waitForRerunCall(emitSpy)
 
-    try {
-      await preprocessor()(file)
-      assert.fail()
-    } catch (err) {
-      expect(err.message).to.not.be.empty
-    }
+    const error = preprocessor()(file)
+
+    await assertCompilationError(error)
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
     file = createFile({ shouldWatch: true })
-    const _emit = sinon.spy(file, 'emit')
+    const emitSpy = sinon.spy(file, 'emit')
 
     await preprocessor()(file)
 
-    expect(_emit).not.to.be.calledWith('rerun')
+    expect(emitSpy).not.to.be.calledWith('rerun')
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await waitForRerunCall(emitSpy)
   })
 
   it('does not call rerun on errored initial build, but on subsequent builds', async () => {
     file = createFile({ name: 'syntax_error_spec.js', shouldWatch: true })
-    const _emit = sinon.spy(file, 'emit')
+    const emitSpy = sinon.spy(file, 'emit')
 
-    try {
-      await preprocessor()(file)
-      assert.fail()
-    } catch (err) {
-      expect(err.message).to.not.be.empty
-    }
+    const error = preprocessor()(file)
 
-    expect(_emit).not.to.be.calledWith('rerun')
+    await assertCompilationError(error)
+
+    expect(emitSpy).not.to.be.calledWith('rerun')
 
     await fs.outputFile(file.filePath, 'console.log()')
 
-    await retry(() => expect(_emit).calledWith('rerun'))
+    await waitForRerunCall(emitSpy)
   })
 })
 
-function assertError (err: Error) {
-  snapshot(normalizeErrorMessage(err.message))
+async function assertCompilationError (error: Promise<any>) {
+  try {
+    await error
+    assert.fail()
+  } catch (e) {
+    snapshot(normalizeErrorMessage(e.message))
+  }
 }
 
-async function assertOutput (outputPath: string | Promise<string>) {
-  snapshot(readFileContent(outputPath))
+async function assertCompilationOutput (outputPath: string | Promise<string>) {
+  snapshot(await readFileContent(outputPath))
 }
 
 function createFile ({ name = 'example_spec.js', shouldWatch = false } = {}) {
@@ -176,4 +172,8 @@ async function readFileContent (outputPath: string | Promise<string>) {
 
 function normalizeErrorMessage (message: string) {
   return message.replace(/\/\S+\/_test/g, '<path>/_test')
+}
+
+function waitForRerunCall (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {
+  return retry(() => expect(emitSpy).calledWith('rerun'))
 }

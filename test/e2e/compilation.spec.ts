@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import chai, { expect } from 'chai'
+import chai, { assert, expect } from 'chai'
 import fs from 'fs-extra'
 import path from 'path'
 import retry from 'bluebird-retry'
@@ -97,7 +97,7 @@ describe('compilation - e2e', () => {
 
     try {
       await preprocessor()(file)
-      throw new Error('Should not resolve')
+      assert.fail()
     } catch (err) {
       snapshot(normalizeErrMessage(err.message))
     }
@@ -108,7 +108,7 @@ describe('compilation - e2e', () => {
 
     try {
       await preprocessor()(file)
-      throw new Error('Should not resolve')
+      assert.fail()
     } catch (err) {
       snapshot(normalizeErrMessage(err.message))
     }
@@ -124,6 +124,13 @@ describe('compilation - e2e', () => {
     await fs.outputFile(file.filePath, '{')
 
     await retry(() => expect(_emit).calledWith('rerun'))
+
+    try {
+      await preprocessor()(file)
+      assert.fail()
+    } catch (err) {
+      expect(err.message).to.not.be.empty
+    }
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
@@ -145,7 +152,7 @@ describe('compilation - e2e', () => {
 
     try {
       await preprocessor()(file)
-      throw new Error('Should not resolve')
+      assert.fail()
     } catch (err) {
       expect(err.message).to.not.be.empty
     }

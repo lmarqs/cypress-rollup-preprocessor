@@ -12,13 +12,13 @@ describe('cypress - e2e', async () => {
         NO_COLOR: '1',
       },
     })
-    const output = sanitizeOutput(result.stdout.toString())
+    const output = normalizeOutput(result.stdout.toString())
 
     snapshot(output)
   }).timeout(60_000)
 })
 
-function sanitizeOutput (output: string): string {
+function normalizeOutput (output: string): string {
   return output
   .replace(/localhost:\d+/g, 'localhost:****')
   .replace(/Cypress: +\d+.\d+.\d+.+/g, 'Cypress:    *.*.*                                                                              │')

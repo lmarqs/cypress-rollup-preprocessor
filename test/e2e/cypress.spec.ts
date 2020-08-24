@@ -21,7 +21,7 @@ describe('cypress - e2e', async () => {
 function sanitizeOutput (output: string): string {
   return output
   .replace(/localhost:\d+/g, 'localhost:****')
-  .replace(/Cypress: \d+.\d+.\d+.+/g, 'Cypress:    *.*.*                                                                              │')
+  .replace(/Cypress: +\d+.\d+.\d+.+/g, 'Cypress:    *.*.*                                                                              │')
   .replace(/Browser: +Electron \d+.+/g, 'Browser:    Electron ** (headless)                                                             │')
   .replace(/compile-error.spec.js .+ms/, 'compile-error.spec.js                    ***ms'.trim())
   .replace(/fail.spec.js .+ms/, '         fail.spec.js                             ***ms'.trim())

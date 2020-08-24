@@ -90,26 +90,18 @@ Fix the error in your code and re-run your tests.
 
 
   success
-    1) pass after ***ms
+    ✓ pass (***ms)
 
 
-  0 passing (***ms)
-  1 failing
-
-  1) success
-       pass after ***ms:
-     TypeError: cy.await is not a function
-      at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/pass.spec.js:8:10)
-
-
+  1 passing (***ms)
 
 
   (Results)
 
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Tests:        1                                                                                │
-  │ Passing:      0                                                                                │
-  │ Failing:      1                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      0                                                                                │
   │ Pending:      0                                                                                │
   │ Skipped:      0                                                                                │
   │ Screenshots:  0                                                                                │
@@ -165,11 +157,11 @@ Fix the error in your code and re-run your tests.
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ ✖  fail.spec.js                             ***ms        1        -        1        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✖  pass.spec.js                             ***ms        1        -        1        -        - │
+  │ ✔  pass.spec.js                             ***ms        1        1        -        -        - │
   ├────────────────────────────────────────────────────────────────────────────────────────────────┤
   │ ✖  runtime-error.spec.js                    ***ms        1        -        1        -        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✖  4 of 4 failed (100%)                     ***ms        3        -        4        -        -  
+    ✖  3 of 4 failed (75%)                      ***ms        3        1        3        -        -  
 
 
 `

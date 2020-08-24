@@ -1,12 +1,12 @@
 import { watch as rollupWatcher, RollupOptions, OutputOptions, RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { EventEmitter } from 'events'
 
-export const watchersOutput: Record<string, string> = {}
+const lastWatchersOutputEmmitedEvents: Record<string, RollupWatcherEvent> = {}
 
-export const watchers: Record<string, RollupWatcher> = {}
+const watchers: Record<string, RollupWatcher> = {}
 
-export function watch (rollupOptions: RollupOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
-  const watcherKey = rollupOptions.input!.toString()
+export async function watch (rollupOptions: RollupOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
+  const watcherKey = getWatcherKey(rollupOptions)
 
   const watcher = watchers[watcherKey] = watchers[watcherKey] ?? rollupWatcher({
     ...rollupOptions,
@@ -22,11 +22,29 @@ export function watch (rollupOptions: RollupOptions, outputOptions: OutputOption
   })
 }
 
+function getWatcherKey (rollupOptions: RollupOptions) {
+  return rollupOptions.input!.toString()
+}
+
+export function getWatcherCachedOutput (rollupOptions: RollupOptions): Promise<string> | null {
+  const lastEvent = lastWatchersOutputEmmitedEvents[getWatcherKey(rollupOptions)]
+
+  if (lastEvent?.code === 'BUNDLE_END') {
+    return Promise.resolve(lastEvent.output[0])
+  }
+
+  if (lastEvent?.code === 'ERROR') {
+    return Promise.reject(lastEvent.error)
+  }
+
+  return null
+}
+
 function createFileClosedListener (watcherKey: string) {
   return () => {
     watchers[watcherKey]?.close()
     delete watchers[watcherKey]
-    delete watchersOutput[watcherKey]
+    delete lastWatchersOutputEmmitedEvents[watcherKey]
   }
 }
 
@@ -47,12 +65,12 @@ function createBuildFinishedListener (file: EventEmitter) {
 function createOutputEmittedListener (watcherKey: string, resolve: (output: string) => any, reject: (reason: any) => any) {
   return (e: RollupWatcherEvent) => {
     if (e.code === 'BUNDLE_END') {
-      watchersOutput[watcherKey] = e.output[0]
-      resolve(watchersOutput[watcherKey])
+      lastWatchersOutputEmmitedEvents[watcherKey] = e
+      resolve(e.output[0])
     }
 
     if (e.code === 'ERROR') {
-      delete watchersOutput[watcherKey]
+      lastWatchersOutputEmmitedEvents[watcherKey] = e
       reject(e.error)
     }
   }

@@ -7,13 +7,9 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import preprocessor, { FileObject } from '../../src'
+import preprocessor, { FileObject, PreprocessorOptions } from '../../src'
 
 chai.use(sinonChai)
-
-const normalizeErrMessage = (message: string) => {
-  return message.replace(/\/\S+\/_test/g, '<path>/_test')
-}
 
 const fixturesDir = path.join(__dirname, '..', 'fixtures')
 const outputDir = path.join(__dirname, '..', '_test-output')
@@ -41,9 +37,7 @@ describe('compilation - e2e', () => {
   it('correctly preprocesses the file', () => {
     file = createFile()
 
-    return preprocessor()(file).then((outputPath) => {
-      snapshot(fs.readFileSync(outputPath).toString())
-    })
+    return processAndSaveSnapshot(file)
   })
 
   it('correctly preprocesses the file using plugins', () => {
@@ -60,9 +54,7 @@ describe('compilation - e2e', () => {
       },
     }
 
-    return preprocessor(options)(file).then((outputPath) => {
-      snapshot(fs.readFileSync(outputPath).toString())
-    })
+    return processAndSaveSnapshot(file, options)
   })
 
   it('correctly reprocesses the file after a modification', async () => {
@@ -76,9 +68,7 @@ describe('compilation - e2e', () => {
 
     await retry(() => expect(_emit).calledWith('rerun'))
 
-    return preprocessor()(file).then((outputPath) => {
-      snapshot(fs.readFileSync(outputPath).toString())
-    })
+    return processAndSaveSnapshot(file)
   })
 
   it('support watching the same file multiple times', async () => {
@@ -99,7 +89,7 @@ describe('compilation - e2e', () => {
       await preprocessor()(file)
       assert.fail()
     } catch (err) {
-      snapshot(normalizeErrMessage(err.message))
+      snapshot(normalizeErrorMessage(err.message))
     }
   })
 
@@ -110,7 +100,7 @@ describe('compilation - e2e', () => {
       await preprocessor()(file)
       assert.fail()
     } catch (err) {
-      snapshot(normalizeErrMessage(err.message))
+      snapshot(normalizeErrorMessage(err.message))
     }
   })
 
@@ -164,3 +154,13 @@ describe('compilation - e2e', () => {
     await retry(() => expect(_emit).calledWith('rerun'))
   })
 })
+
+async function processAndSaveSnapshot (file: FileObject, options?: PreprocessorOptions) {
+  const outputPath = await preprocessor(options)(file)
+
+  snapshot(fs.readFileSync(outputPath).toString())
+}
+
+function normalizeErrorMessage (message: string) {
+  return message.replace(/\/\S+\/_test/g, '<path>/_test')
+}

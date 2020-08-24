@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.0...v0.6.1) (2020-08-24)
+
+
+### Bug Fixes
+
+* output caching ([316f44d](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/316f44dccda34476650187341c366cd0618d1551))
+
 # [0.6.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.5.0...v0.6.0) (2020-08-22)
 
 

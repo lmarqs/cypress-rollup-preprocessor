@@ -7,20 +7,12 @@ import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import preprocessor, { FileObject, PreprocessorOptions } from '../../src'
+import preprocessor, { FileObject } from '../../src'
 
 chai.use(sinonChai)
 
 const fixturesDir = path.join(__dirname, '..', 'fixtures')
 const outputDir = path.join(__dirname, '..', '_test-output')
-
-const createFile = ({ name = 'example_spec.js', shouldWatch = false } = {}) => {
-  return Object.assign(new EventEmitter(), {
-    filePath: path.join(outputDir, name),
-    outputPath: path.join(outputDir, name.replace('.', '_output.')),
-    shouldWatch,
-  })
-}
 
 describe('compilation - e2e', () => {
   let file: FileObject
@@ -37,11 +29,14 @@ describe('compilation - e2e', () => {
   it('correctly preprocesses the file', () => {
     file = createFile()
 
-    return processAndSaveSnapshot(file)
+    const outputPath = preprocessor()(file)
+
+    return assertOutput(outputPath)
   })
 
   it('correctly preprocesses the file using plugins', () => {
     file = createFile({ name: 'exemple_spec.ts' })
+
     const options = {
       rollupOptions: {
         plugins: [require('rollup-plugin-typescript2')({
@@ -54,7 +49,9 @@ describe('compilation - e2e', () => {
       },
     }
 
-    return processAndSaveSnapshot(file, options)
+    const outputPath = preprocessor()(file)
+
+    return assertOutput(outputPath)
   })
 
   it('correctly reprocesses the file after a modification', async () => {
@@ -68,7 +65,9 @@ describe('compilation - e2e', () => {
 
     await retry(() => expect(_emit).calledWith('rerun'))
 
-    return processAndSaveSnapshot(file)
+    const outputPath = preprocessor()(file)
+
+    return assertOutput(outputPath)
   })
 
   it('support watching the same file multiple times', async () => {
@@ -79,7 +78,7 @@ describe('compilation - e2e', () => {
       preprocessor()(file),
     ])
 
-    expect(fs.readFileSync(outputs[0]).toString()).to.be.equal(fs.readFileSync(outputs[1]).toString())
+    expect(readFileContent(outputs[0])).to.be.equal(readFileContent(outputs[1]))
   })
 
   it('has less verbose "Module not found" error', async () => {
@@ -100,7 +99,7 @@ describe('compilation - e2e', () => {
       await preprocessor()(file)
       assert.fail()
     } catch (err) {
-      snapshot(normalizeErrorMessage(err.message))
+      assertError(err)
     }
   })
 
@@ -155,10 +154,24 @@ describe('compilation - e2e', () => {
   })
 })
 
-async function processAndSaveSnapshot (file: FileObject, options?: PreprocessorOptions) {
-  const outputPath = await preprocessor(options)(file)
+function assertError (err: Error) {
+  snapshot(normalizeErrorMessage(err.message))
+}
 
-  snapshot(fs.readFileSync(outputPath).toString())
+async function assertOutput (outputPath: string | Promise<string>) {
+  snapshot(readFileContent(outputPath))
+}
+
+function createFile ({ name = 'example_spec.js', shouldWatch = false } = {}) {
+  return Object.assign(new EventEmitter(), {
+    filePath: path.join(outputDir, name),
+    outputPath: path.join(outputDir, name.replace('.', '_output.')),
+    shouldWatch,
+  })
+}
+
+async function readFileContent (outputPath: string | Promise<string>) {
+  return fs.readFileSync(await outputPath).toString()
 }
 
 function normalizeErrorMessage (message: string) {

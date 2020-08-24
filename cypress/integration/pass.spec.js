@@ -1,5 +1,5 @@
 describe('success', () => {
   it('pass', () => {
-    expect(1).to.be.greaterThan(0)
+    expect(true).to.not.be.false
   })
 })

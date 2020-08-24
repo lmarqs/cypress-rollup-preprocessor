@@ -91,7 +91,7 @@ npm test
 
 ## Inspiration
 
-Many test approaches and patterns were copied from:
+Many approaches, patterns and standards were copied from:
 
 - <https://github.com/cypress-io/cypress-webpack-preprocessor>
 - <https://github.com/cypress-io/cypress-watch-preprocessor>

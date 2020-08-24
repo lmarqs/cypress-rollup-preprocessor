@@ -2,21 +2,21 @@ version: 1
 update_configs:
   - package_manager: "javascript"
     directory: "/"
-    update_schedule: "daily"
+    update_schedule: "weekly"
     commit_message:
-      prefix: "weekly"
+      prefix: "chore"
       include_scope: true
 
   - package_manager: "javascript"
     directory: "/examples/basic"
-    update_schedule: "daily"
+    update_schedule: "weekly"
     commit_message:
-      prefix: "weekly"
+      prefix: "chore"
       include_scope: true
 
   - package_manager: "javascript"
     directory: "/examples/typescript"
-    update_schedule: "daily"
+    update_schedule: "weekly"
     commit_message:
-      prefix: "weekly"
+      prefix: "chore"
       include_scope: true

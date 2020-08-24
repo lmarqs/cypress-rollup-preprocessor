@@ -90,7 +90,7 @@ Fix the error in your code and re-run your tests.
 
 
   success
-    ✓ pass (***ms)
+    ✓ pass after ***ms (***ms)
 
 
   1 passing (***ms)

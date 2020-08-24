@@ -26,7 +26,7 @@ function getWatcherKey (rollupOptions: RollupOptions) {
   return rollupOptions.input!.toString()
 }
 
-export function getWatcherCachedOutput (rollupOptions: RollupOptions): Promise<string> | null {
+export function getWatcherCachedOutput (rollupOptions: RollupOptions) {
   const lastEvent = lastWatchersOutputEmmitedEvents[getWatcherKey(rollupOptions)]
 
   if (lastEvent?.code === 'BUNDLE_END') {

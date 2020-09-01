@@ -1,4 +1,4 @@
-name: Auto approve
+name: Merge Dependabot PRs
 on: pull_request
 
 jobs:
@@ -9,3 +9,8 @@ jobs:
       - uses: hmarr/auto-approve-action@v2.0.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: harupy/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: merge-dependabot-prs-command.md

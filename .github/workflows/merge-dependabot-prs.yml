@@ -9,8 +9,8 @@ jobs:
       - uses: hmarr/auto-approve-action@v2.0.0
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: harupy/comment-on-pr@master
+      - uses: unsplash/comment-on-pr@master
+        with:
+          msg: "@dependabot merge"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          filename: merge-dependabot-prs-command.md

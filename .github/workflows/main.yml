@@ -30,7 +30,7 @@ jobs:
       with:
         coverageCommand: npm run coverage
         coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
-    - if: github.pull_request && contains(fromJson('["dependabot[bot]","dependabot-preview[bot]"]'), github.actor)
+    - if: github.pull_request && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
       uses: hmarr/auto-approve-action@v2.0.0
       with:
         github-token: "${{ secrets.OWNER_GITHUB_TOKEN }}"

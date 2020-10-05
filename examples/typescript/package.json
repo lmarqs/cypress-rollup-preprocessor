@@ -4,7 +4,7 @@
     "test": "cypress run"
   },
   "devDependencies": {
-    "cypress": "^5.2.0",
+    "cypress": "^5.3.0",
     "cypress-rollup-preprocessor": "file:../..",
     "rollup": "^2.28.2",
     "rollup-plugin-typescript2": "^0.27.3",

@@ -1,3 +1,11 @@
+## [0.6.2](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.1...v0.6.2) (2020-11-10)
+
+
+### Bug Fixes
+
+* event emmited on wrong time ([a1fddba](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/a1fddbae1b9a2012b3cdd61055be04c60319487b))
+* lint issue ([72ed6a5](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/72ed6a56b9ef800bc0a7c9a0f6b94b24b46e4f75))
+
 ## [0.6.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.0...v0.6.1) (2020-08-24)
 
 

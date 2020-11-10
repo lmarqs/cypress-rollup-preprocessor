@@ -7,7 +7,7 @@ describe('cypress - e2e', async () => {
 
     const output = runCypress()
 
-    assertCompilationOutput(output)
+    snapshot(output)
   })
 })
 
@@ -41,8 +41,4 @@ function normalizeCypressRunProcessStdOut (output: string): string {
   .replace(/pass.spec.js .+ms/, '         pass.spec.js                             ***ms'.trim())
   .replace(/runtime-error.spec.js .+ms/, 'runtime-error.spec.js                    ***ms'.trim())
   .replace(/\d+ms/g, '***ms')
-}
-
-function assertCompilationOutput (output: string) {
-  snapshot(output)
 }

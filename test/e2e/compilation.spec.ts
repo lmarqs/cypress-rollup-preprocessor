@@ -67,15 +67,12 @@ describe('compilation - e2e', () => {
   it('support watching the same file multiple times', async () => {
     file = createFixtureFile({ shouldWatch: true })
 
-    await runPreprocessor(file)
+    const [firstOutput, secondOutput] = await Promise.all([
+      runPreprocessor(file),
+      runPreprocessor(file),
+    ])
 
-    const firstOutput = await file.getOutputFileContent()
-
-    await runPreprocessor(file)
-
-    const secondOutput = await file.getOutputFileContent()
-
-    expect(secondOutput).to.be.equal(firstOutput)
+    expect(firstOutput).to.be.equal(secondOutput)
   })
 
   it('has less verbose "Module not found" error', async () => {

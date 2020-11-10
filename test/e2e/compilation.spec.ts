@@ -133,7 +133,7 @@ describe('compilation - e2e', () => {
   })
 })
 
-function runPreprocessor (file: FixtureFile, options: PreprocessorOptions = {}): Promise<string> {
+function runPreprocessor (file: FixtureFile, options: undefined | PreprocessorOptions = undefined): Promise<string> {
   return preprocessor(options)(file)
 }
 

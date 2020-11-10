@@ -1,3 +1,5 @@
+test/fixtures/samples
+test/fixtures/_tmp
 
 # Created by https://www.toptal.com/developers/gitignore/api/git,node,react,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,node,react,macos,linux,windows
@@ -210,5 +212,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/git,node,react,macos,linux,windows
-
-test/_test-output

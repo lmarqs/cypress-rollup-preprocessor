@@ -1,8 +1,9 @@
 {
-  "watch-ignore": [
-    "./test/_test-output",
-    "node_modules"
+  "watch-files": [
+    "./src/**/*",
+    "./test/e2e/**/*"
   ],
   "require": "ts-node/register",
-  "exit": true
+  "exit": true,
+  "timeout": 60000
 }

@@ -2,23 +2,36 @@ import { spawnSync } from 'child_process'
 import snapshot from 'snap-shot-it'
 
 describe('cypress - e2e', async () => {
-  it(`test: cypress integration`, async () => {
-    spawnSync('npx', ['cypress', 'verify'])
+  it('test: cypress integration', () => {
+    initCypress()
 
-    const result = spawnSync('npx', ['cypress', 'run'], {
-      encoding: 'utf8',
-      env: {
-        ...process.env,
-        NO_COLOR: '1',
-      },
-    })
-    const output = normalizeOutput(result.stdout.toString())
+    const output = runCypress()
 
-    snapshot(output)
-  }).timeout(60_000)
+    assertCompilationOutput(output)
+  })
 })
 
-function normalizeOutput (output: string): string {
+function initCypress (): void {
+  spawnCypressProcess('verify')
+}
+
+function runCypress (): string {
+  const { stdout } = spawnCypressProcess('run')
+
+  return normalizeCypressRunProcessStdOut(stdout.toString())
+}
+
+function spawnCypressProcess (...args: string[]) {
+  return spawnSync('npx', ['cypress', ...args], {
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      NO_COLOR: '1',
+    },
+  })
+}
+
+function normalizeCypressRunProcessStdOut (output: string): string {
   return output
   .replace(/localhost:\d+/g, 'localhost:****')
   .replace(/Cypress: +\d+.\d+.\d+.+/g, 'Cypress:    *.*.*                                                                              │')
@@ -28,4 +41,8 @@ function normalizeOutput (output: string): string {
   .replace(/pass.spec.js .+ms/, '         pass.spec.js                             ***ms'.trim())
   .replace(/runtime-error.spec.js .+ms/, 'runtime-error.spec.js                    ***ms'.trim())
   .replace(/\d+ms/g, '***ms')
+}
+
+function assertCompilationOutput (output: string) {
+  snapshot(output)
 }

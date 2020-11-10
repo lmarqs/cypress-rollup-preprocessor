@@ -44,7 +44,7 @@ exports['compilation - e2e correctly reprocesses the file after a modification 1
 `
 
 exports['compilation - e2e has less verbose "Module not found" error 1'] = `
-Could not resolve './does/not-exist' from test/_test-output/imports_nonexistent_file_spec.js
+Could not resolve './does/not-exist' from test/fixtures/_tmp/error_due_importing_nonexistent_file_spec.js
 `
 
 exports['compilation - e2e has less verbose syntax error 1'] = `

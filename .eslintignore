@@ -2,5 +2,5 @@ dist
 tsconfig.json
 package-lock.json
 
-test/fixtures
-test/_test-output
+test/fixtures/samples
+test/fixtures/_tmp

@@ -1,179 +1,163 @@
-import { EventEmitter } from 'events'
 import chai, { assert, expect } from 'chai'
-import fs from 'fs-extra'
-import path from 'path'
 import retry from 'bluebird-retry'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import snapshot from 'snap-shot-it'
 
-import preprocessor, { FileObject } from '../../src'
+import preprocessor, { PreprocessorOptions } from '../../src'
+import { createFixtureFile, FixtureFile } from '../fixtures'
 
 chai.use(sinonChai)
 
-const fixturesDir = path.join(__dirname, '..', 'fixtures')
-const outputDir = path.join(__dirname, '..', '_test-output')
-
 describe('compilation - e2e', () => {
-  let file: FileObject
+  let file: FixtureFile
 
   beforeEach(async () => {
-    await fs.remove(outputDir)
-    await fs.copy(fixturesDir, outputDir)
+    await FixtureFile.reset()
   })
 
-  afterEach(async () => {
-    file.emit('close')
+  afterEach(() => {
+    file.close()
   })
 
   it('correctly preprocesses the file', async () => {
-    file = createFile()
+    file = createFixtureFile()
 
-    const outputPath = preprocessor()(file)
+    await runPreprocessor(file)
 
-    await assertCompilationOutput(outputPath)
+    await assertCompilationOutput(file)
   })
 
   it('correctly preprocesses the file using plugins', async () => {
-    file = createFile({ name: 'exemple_spec.ts' })
+    file = createFixtureFile({ name: 'success_spec.ts' })
 
     const options = {
       rollupOptions: {
-        plugins: [require('rollup-plugin-typescript2')({
-          tsconfigOverride: {
-            compilerOptions: {
-              module: 'esnext',
+        plugins: [
+          require('rollup-plugin-typescript2')({
+            tsconfigOverride: {
+              compilerOptions: {
+                module: 'esnext',
+              },
             },
-          },
-        })],
+          }),
+        ],
       },
     }
 
-    const outputPath = preprocessor(options)(file)
+    await runPreprocessor(file, options)
 
-    return assertCompilationOutput(outputPath)
+    await assertCompilationOutput(file)
   })
 
   it('correctly reprocesses the file after a modification', async () => {
-    file = createFile({ shouldWatch: true })
+    file = createFixtureFile({ shouldWatch: true })
 
-    const emitSpy = sinon.spy(file, 'emit')
+    const emitSpy = spyOnEmitMethod(file)
 
-    await preprocessor()(file)
+    await runPreprocessor(file)
 
-    await fs.outputFile(file.filePath, `console.log()`)
+    await file.writeOnInputFile('console.log()')
 
-    await waitForRerunCall(emitSpy)
+    await awaitForRerunCall(emitSpy)
 
-    const outputPath = preprocessor()(file)
-
-    return assertCompilationOutput(outputPath)
+    await assertCompilationOutput(file)
   })
 
   it('support watching the same file multiple times', async () => {
-    file = createFile({ shouldWatch: true })
+    file = createFixtureFile({ shouldWatch: true })
 
-    const filesContents = await Promise.all([
-      preprocessor()(file),
-      preprocessor()(file),
-    ].map(readFileContent))
+    await runPreprocessor(file)
 
-    expect(filesContents[0]).to.be.equal(filesContents[1])
+    const firstOutput = await file.getOutputFileContent()
+
+    await runPreprocessor(file)
+
+    const secondOutput = await file.getOutputFileContent()
+
+    expect(secondOutput).to.be.equal(firstOutput)
   })
 
   it('has less verbose "Module not found" error', async () => {
-    file = createFile({ name: 'imports_nonexistent_file_spec.js' })
+    file = createFixtureFile({ name: 'error_due_importing_nonexistent_file_spec.js' })
 
-    try {
-      await preprocessor()(file)
-      assert.fail()
-    } catch (err) {
-      snapshot(normalizeErrorMessage(err.message))
-    }
+    await assertCompilationFailure(runPreprocessor(file))
   })
 
   it('has less verbose syntax error', async () => {
-    file = createFile({ name: 'syntax_error_spec.js' })
+    file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js' })
 
-    const error = preprocessor()(file)
-
-    await assertCompilationError(error)
+    await assertCompilationFailure(runPreprocessor(file))
   })
 
   it('triggers rerun on syntax error', async () => {
-    file = createFile({ shouldWatch: true })
+    file = createFixtureFile({ shouldWatch: true })
 
-    await preprocessor()(file)
+    await runPreprocessor(file)
 
-    const emitSpy = sinon.spy(file, 'emit')
+    const emitSpy = spyOnEmitMethod(file)
 
-    await fs.outputFile(file.filePath, '{')
+    await file.writeOnInputFile('{')
 
-    await waitForRerunCall(emitSpy)
+    await awaitForRerunCall(emitSpy)
 
-    const error = preprocessor()(file)
-
-    await assertCompilationError(error)
+    await assertCompilationFailure(runPreprocessor(file))
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
-    file = createFile({ shouldWatch: true })
-    const emitSpy = sinon.spy(file, 'emit')
+    file = createFixtureFile({ shouldWatch: true })
 
-    await preprocessor()(file)
+    await runPreprocessor(file)
+
+    const emitSpy = spyOnEmitMethod(file)
 
     expect(emitSpy).not.to.be.calledWith('rerun')
 
-    await fs.outputFile(file.filePath, 'console.log()')
+    await file.writeOnInputFile('console.log()')
 
-    await waitForRerunCall(emitSpy)
+    await awaitForRerunCall(emitSpy)
   })
 
   it('does not call rerun on errored initial build, but on subsequent builds', async () => {
-    file = createFile({ name: 'syntax_error_spec.js', shouldWatch: true })
-    const emitSpy = sinon.spy(file, 'emit')
+    file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js', shouldWatch: true })
 
-    const error = preprocessor()(file)
+    const emitSpy = spyOnEmitMethod(file)
 
-    await assertCompilationError(error)
+    await assertCompilationFailure(runPreprocessor(file))
 
     expect(emitSpy).not.to.be.calledWith('rerun')
 
-    await fs.outputFile(file.filePath, 'console.log()')
+    await file.writeOnInputFile('console.log()')
 
-    await waitForRerunCall(emitSpy)
+    await awaitForRerunCall(emitSpy)
   })
 })
 
-async function assertCompilationError (error: Promise<any>) {
+function runPreprocessor (file: FixtureFile, options: PreprocessorOptions = {}): Promise<string> {
+  return preprocessor(options)(file)
+}
+
+function spyOnEmitMethod (file: FixtureFile) {
+  return sinon.spy(file, 'emit')
+}
+
+async function assertCompilationFailure (compilationPromise: any) {
   try {
-    await error
+    await compilationPromise
     assert.fail()
   } catch (e) {
     snapshot(normalizeErrorMessage(e.message))
   }
 }
 
-async function assertCompilationOutput (outputPath: string | Promise<string>) {
-  snapshot(await readFileContent(outputPath))
-}
-
-function createFile ({ name = 'example_spec.js', shouldWatch = false } = {}) {
-  return Object.assign(new EventEmitter(), {
-    filePath: path.join(outputDir, name),
-    outputPath: path.join(outputDir, name.replace('.', '_output.')),
-    shouldWatch,
-  })
-}
-
-async function readFileContent (outputPath: string | Promise<string>) {
-  return fs.readFileSync(await outputPath).toString()
+async function assertCompilationOutput (file: FixtureFile) {
+  snapshot(await file.getOutputFileContent())
 }
 
 function normalizeErrorMessage (message: string) {
   return message.replace(/\/\S+\/_test/g, '<path>/_test')
 }
 
-function waitForRerunCall (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {
+function awaitForRerunCall (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {
   return retry(() => expect(emitSpy).calledWith('rerun'))
 }

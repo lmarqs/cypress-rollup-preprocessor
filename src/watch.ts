@@ -37,7 +37,7 @@ export async function watch (rollupOptions: RollupOptions, outputOptions: Output
   })
 }
 
-function setCachedWatcherOutput(rollupOptions: RollupOptions, e: RollupWatcherEvent) {
+function setCachedWatcherOutput (rollupOptions: RollupOptions, e: RollupWatcherEvent) {
   lastWatchersOutputEmmitedEvents[getWatcherKey(rollupOptions)] = e
 }
 

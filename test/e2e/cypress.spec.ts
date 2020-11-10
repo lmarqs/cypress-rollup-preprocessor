@@ -18,7 +18,7 @@ function initCypress (): void {
 function runCypress (): string {
   const { stdout } = spawnCypressProcess('run')
 
-  return normalizeCypressRunProcessStdOut(stdout.toString())
+  return normalizeCypressRunProcessStdOut(stdout)
 }
 
 function spawnCypressProcess (...args: string[]) {

@@ -1,13 +1,16 @@
-import chai, { assert, expect } from 'chai'
+import chai, { expect } from 'chai'
 import retry from 'bluebird-retry'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import snapshot from 'snap-shot-it'
+import chaiAsPromised from 'chai-as-promised'
 
 import preprocessor, { PreprocessorOptions } from '../../src'
 import { createFixtureFile, FixtureFile } from '../fixtures'
+import { chaiSnapshot } from '../helpers/match-snapshot'
 
 chai.use(sinonChai)
+chai.use(chaiAsPromised)
+chai.use(chaiSnapshot)
 
 describe('compilation - e2e', () => {
   let file: FixtureFile
@@ -25,7 +28,7 @@ describe('compilation - e2e', () => {
 
     await runPreprocessor(file)
 
-    await assertCompilationOutput(file)
+    await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
   })
 
   it('correctly preprocesses the file using plugins', async () => {
@@ -47,7 +50,7 @@ describe('compilation - e2e', () => {
 
     await runPreprocessor(file, options)
 
-    await assertCompilationOutput(file)
+    await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
   })
 
   it('correctly reprocesses the file after a modification', async () => {
@@ -61,7 +64,7 @@ describe('compilation - e2e', () => {
 
     await awaitForRerunCall(emitSpy)
 
-    await assertCompilationOutput(file)
+    await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
   })
 
   it('support watching the same file multiple times', async () => {
@@ -78,13 +81,17 @@ describe('compilation - e2e', () => {
   it('has less verbose "Module not found" error', async () => {
     file = createFixtureFile({ name: 'error_due_importing_nonexistent_file_spec.js' })
 
-    await assertCompilationFailure(runPreprocessor(file))
+    await expect(runPreprocessor(file))
+    .to.eventually.be.rejected
+    .and.to.matchSnapshot
   })
 
   it('has less verbose syntax error', async () => {
     file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js' })
 
-    await assertCompilationFailure(runPreprocessor(file))
+    await expect(runPreprocessor(file))
+    .to.eventually.be.rejected
+    .and.to.matchSnapshot
   })
 
   it('triggers rerun on syntax error', async () => {
@@ -98,7 +105,9 @@ describe('compilation - e2e', () => {
 
     await awaitForRerunCall(emitSpy)
 
-    await assertCompilationFailure(runPreprocessor(file))
+    await expect(runPreprocessor(file))
+    .to.eventually.be.rejected
+    .and.to.matchSnapshot
   })
 
   it('does not call rerun on initial build, but on subsequent builds', async () => {
@@ -120,7 +129,9 @@ describe('compilation - e2e', () => {
 
     const emitSpy = spyOnEmitMethod(file)
 
-    await assertCompilationFailure(runPreprocessor(file))
+    await expect(runPreprocessor(file))
+    .to.eventually.be.rejected
+    .and.to.matchSnapshot
 
     expect(emitSpy).not.to.be.calledWith('rerun')
 
@@ -136,23 +147,6 @@ function runPreprocessor (file: FixtureFile, options: undefined | PreprocessorOp
 
 function spyOnEmitMethod (file: FixtureFile) {
   return sinon.spy(file, 'emit')
-}
-
-async function assertCompilationFailure (compilationPromise: any) {
-  try {
-    await compilationPromise
-    assert.fail()
-  } catch (e) {
-    snapshot(normalizeErrorMessage(e.message))
-  }
-}
-
-async function assertCompilationOutput (file: FixtureFile) {
-  snapshot(await file.getOutputFileContent())
-}
-
-function normalizeErrorMessage (message: string) {
-  return message.replace(/\/\S+\/_test/g, '<path>/_test')
 }
 
 function awaitForRerunCall (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {

@@ -67,13 +67,25 @@ describe('compilation - e2e', () => {
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
-    it('support watching the same file multiple times', async () => {
+    it('support watching the same file multiple times parallelly', async () => {
       file = createFixtureFile({ shouldWatch: true })
 
       const [firstOutput, secondOutput] = await Promise.all([
-        preprocessor()(file),
-        preprocessor()(file),
+        runPreprocessor(file),
+        runPreprocessor(file),
       ])
+
+      expect(firstOutput).to.be.equal(secondOutput)
+    })
+
+    it('support watching the same file multiple times sequencialy', async () => {
+      file = createFixtureFile({ shouldWatch: true })
+
+      await runPreprocessor(file)
+      const firstOutput = await file.getOutputFileContent()
+
+      await runPreprocessor(file)
+      const secondOutput = await file.getOutputFileContent()
 
       expect(firstOutput).to.be.equal(secondOutput)
     })

@@ -71,8 +71,8 @@ describe('compilation - e2e', () => {
       file = createFixtureFile({ shouldWatch: true })
 
       const [firstOutput, secondOutput] = await Promise.all([
-        runPreprocessor(file),
-        runPreprocessor(file),
+        preprocessor()(file),
+        preprocessor()(file),
       ])
 
       expect(firstOutput).to.be.equal(secondOutput)

@@ -104,14 +104,6 @@ describe('compilation - e2e', () => {
       await listenForRerunEvent(file)
     })
 
-    it('triggers rerun after a modification, even if a syntax error is introduced', async () => {
-      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
-
-      await file.writeOnInputFile('{')
-
-      await listenForRerunEvent(file)
-    })
-
     it('does not trigger rerun on initial build', async () => {
       file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
       expect(file.emit).not.to.be.calledWith('rerun')

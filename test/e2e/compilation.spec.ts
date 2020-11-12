@@ -25,7 +25,7 @@ describe('compilation - e2e', () => {
 
   describe('test preprocessor output', () => {
     it('correctly preprocesses the file', async () => {
-      file = createFixtureFile({ shouldWatch: true })
+      file = createFixtureFile()
 
       await runPreprocessor(file)
 
@@ -74,9 +74,6 @@ describe('compilation - e2e', () => {
       const emitSpy = spyOnEmitMethod(file)
 
       await runPreprocessor(file)
-      await new Promise((res) => process.nextTick(res))
-      await new Promise((res) => process.nextTick(res))
-      await new Promise((res) => process.nextTick(res))
 
       await file.writeOnInputFile('{')
 
@@ -194,17 +191,15 @@ async function runPreprocessor (file: FixtureFile, options: undefined | Preproce
   const result = await preprocessor(options)(file)
 
   // MAC OS bug
-  await awaitNextTick()
+  if (file.shouldWatch) {
+    await new Promise<void>((resolve) => setTimeout(resolve, 100))
+  }
 
   return result
 }
 
 function spyOnEmitMethod (file: FixtureFile) {
   return sinon.spy(file, 'emit')
-}
-
-async function awaitNextTick (): Promise<void> {
-  await new Promise<void>((resolve) => setTimeout(resolve, 100))
 }
 
 function listenForRerunEvent (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {

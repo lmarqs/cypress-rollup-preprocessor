@@ -78,16 +78,12 @@ describe('compilation - e2e', () => {
       expect(firstOutput).to.be.equal(secondOutput)
     })
 
-    it('has less verbose "Module not found" error', async () => {
-      file = createFixtureFile({ name: 'error_due_importing_nonexistent_file_spec.js' })
-
-      await expect(runPreprocessor(file))
-      .to.eventually.be.rejected
-      .and.to.matchSnapshot
-    })
-
-    it('has less verbose "Syntax error"', async () => {
-      file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js' })
+    forEach([
+      'error_due_importing_nonexistent_file_spec.js',
+      'error_due_invalid_syntax_spec.js',
+    ])
+    .it('has less verbose error message (%s)', async (name) => {
+      file = createFixtureFile({ name })
 
       await expect(runPreprocessor(file))
       .to.eventually.be.rejected

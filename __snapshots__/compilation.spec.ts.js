@@ -61,10 +61,10 @@ exports['compilation - e2e test preprocessor output correctly reprocesses the fi
 
 `
 
-exports['compilation - e2e test preprocessor output has less verbose "Module not found" error 1'] = `
+exports['compilation - e2e test preprocessor output has less verbose error message (error_due_importing_nonexistent_file_spec.js) 1'] = `
 Could not resolve './does/not-exist' from test/fixtures/_tmp/error_due_importing_nonexistent_file_spec.js
 `
 
-exports['compilation - e2e test preprocessor output has less verbose "Syntax error" 1'] = `
+exports['compilation - e2e test preprocessor output has less verbose error message (error_due_invalid_syntax_spec.js) 1'] = `
 Unexpected token
 `

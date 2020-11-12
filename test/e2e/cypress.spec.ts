@@ -1,8 +1,8 @@
 import { spawnSync } from 'child_process'
 import snapshot from 'snap-shot-it'
 
-describe('cypress - e2e', async () => {
-  it('test: cypress integration', () => {
+describe('cypress - e2e', function () {
+  it('test: cypress integration', function () {
     initCypress()
 
     const output = runCypress()

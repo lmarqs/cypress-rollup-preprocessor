@@ -13,25 +13,25 @@ chai.use(sinonChai)
 chai.use(chaiAsPromised)
 chai.use(chaiSnapshot)
 
-describe('compilation - e2e', () => {
+describe('compilation - e2e', function () {
   let file: FixtureFile
 
-  beforeEach(async () => {
+  beforeEach(async function () {
     await FixtureFile.reset()
   })
 
-  afterEach(() => {
+  afterEach(function () {
     file.close()
   })
 
-  describe('test preprocessor output', () => {
-    it('correctly preprocesses the file', async () => {
+  describe('test preprocessor output', function () {
+    it('correctly preprocesses the file', async function () {
       file = await createFixtureFileAndRunPreprocessor()
 
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
-    it('correctly preprocesses the file using plugins', async () => {
+    it('correctly preprocesses the file using plugins', async function () {
       file = createFixtureFile({ name: 'success_spec.ts' })
 
       const options = {
@@ -67,7 +67,7 @@ describe('compilation - e2e', () => {
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
-    it('support watching the same file multiple times parallelly', async () => {
+    it('support watching the same file multiple times parallelly', async function () {
       file = createFixtureFile({ shouldWatch: true })
 
       const [firstOutput, secondOutput] = await Promise.all([
@@ -78,7 +78,7 @@ describe('compilation - e2e', () => {
       expect(firstOutput).to.be.equal(secondOutput)
     })
 
-    it('support watching the same file multiple times sequencialy', async () => {
+    it('support watching the same file multiple times sequencialy', async function () {
       file = createFixtureFile({ shouldWatch: true })
 
       await runPreprocessor(file)
@@ -103,7 +103,7 @@ describe('compilation - e2e', () => {
     })
   })
 
-  describe('test event emission', () => {
+  describe('test event emission', function () {
     forEach([
       'this is a syntax error',
       'console.log("this is a valid modification")',
@@ -116,12 +116,12 @@ describe('compilation - e2e', () => {
       await listenForRerunEvent(file)
     })
 
-    it('does not trigger rerun on initial build', async () => {
+    it('does not trigger rerun on initial build', async function () {
       file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
       expect(file.emit).not.to.be.calledWith('rerun')
     })
 
-    it('does not trigger rerun on errored initial build', async () => {
+    it('does not trigger rerun on errored initial build', async function () {
       file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js', shouldWatch: true })
 
       spyOnEmitMethod(file)
@@ -134,7 +134,7 @@ describe('compilation - e2e', () => {
       }
     })
 
-    it('triggers rerun on subsequent builds, even after a errored initial build', async () => {
+    it('triggers rerun on subsequent builds, even after a errored initial build', async function () {
       file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js', shouldWatch: true })
 
       spyOnEmitMethod(file)

@@ -2,9 +2,13 @@
   "root": true,
   "plugins": [
     "@cypress/dev",
-    "jest"
+    "mocha"
   ],
   "extends": [
-    "plugin:@cypress/dev/general"
-  ]
+    "plugin:@cypress/dev/general",
+    "plugin:mocha/recommended"
+  ],
+  "rules": {
+    "mocha/no-setup-in-describe": "off"
+  }
 }

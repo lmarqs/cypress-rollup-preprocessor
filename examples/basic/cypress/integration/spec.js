@@ -1,5 +1,5 @@
-describe('basic example', () => {
-  it('works', () => {
+describe('basic example', function () {
+  it('works', function () {
     const data = {
       person: {
         firstName: 'Joe',

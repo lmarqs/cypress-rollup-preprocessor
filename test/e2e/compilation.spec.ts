@@ -3,6 +3,7 @@ import retry from 'bluebird-retry'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import chaiAsPromised from 'chai-as-promised'
+import forEach from 'mocha-each'
 
 import preprocessor, { PreprocessorOptions } from '../../src'
 import { createFixtureFile, FixtureFile } from '../fixtures'
@@ -52,20 +53,14 @@ describe('compilation - e2e', () => {
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
-    it('correctly reprocesses the file after a modification', async () => {
+    forEach([
+      ['syntax error'],
+      ['console.log("valid modification")'],
+    ])
+    .it('correctly reprocesses the file after a modification (%s)', async (modification) => {
       file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
-      await file.writeOnInputFile('console.log()')
-
-      await listenForRerunEvent(file)
-
-      await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
-    })
-
-    it('correctly reprocesses the file after a modification, even if a syntax error is introduced', async () => {
-      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
-
-      await file.writeOnInputFile('{')
+      await file.writeOnInputFile(modification)
 
       await listenForRerunEvent(file)
 

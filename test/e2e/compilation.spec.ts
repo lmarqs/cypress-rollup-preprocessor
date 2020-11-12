@@ -25,9 +25,7 @@ describe('compilation - e2e', () => {
 
   describe('test preprocessor output', () => {
     it('correctly preprocesses the file', async () => {
-      file = createFixtureFile()
-
-      await runPreprocessor(file)
+      file = await createFixtureFileAndRunPreprocessor()
 
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
@@ -55,29 +53,21 @@ describe('compilation - e2e', () => {
     })
 
     it('correctly reprocesses the file after a modification', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      const emitSpy = spyOnEmitMethod(file)
-
-      await runPreprocessor(file)
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('console.log()')
 
-      await listenForRerunEvent(emitSpy)
+      await listenForRerunEvent(file)
 
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
     it('correctly reprocesses the file after a modification, even if a syntax error is introduced', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      const emitSpy = spyOnEmitMethod(file)
-
-      await runPreprocessor(file)
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('{')
 
-      await listenForRerunEvent(emitSpy)
+      await listenForRerunEvent(file)
 
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
@@ -112,68 +102,51 @@ describe('compilation - e2e', () => {
 
   describe('test event emission', () => {
     it('triggers rerun after a modification', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      await runPreprocessor(file)
-
-      const emitSpy = spyOnEmitMethod(file)
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('console.log()')
 
-      await listenForRerunEvent(emitSpy)
+      await listenForRerunEvent(file)
     })
 
     it('triggers rerun after a modification, even if a syntax error is introduced', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      await runPreprocessor(file)
-
-      const emitSpy = spyOnEmitMethod(file)
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('{')
 
-      await listenForRerunEvent(emitSpy)
+      await listenForRerunEvent(file)
     })
 
     it('does not trigger rerun on initial build', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      await runPreprocessor(file)
-
-      const emitSpy = spyOnEmitMethod(file)
-
-      expect(emitSpy).not.to.be.calledWith('rerun')
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
+      expect(file.emit).not.to.be.calledWith('rerun')
     })
 
     it('triggers rerun on subsequent builds', async () => {
-      file = createFixtureFile({ shouldWatch: true })
-
-      const emitSpy = spyOnEmitMethod(file)
-
-      await runPreprocessor(file)
+      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('console.log()')
 
-      await listenForRerunEvent(emitSpy)
+      await listenForRerunEvent(file)
     })
 
     it('does not trigger rerun on errored initial build', async () => {
       file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js', shouldWatch: true })
 
-      const emitSpy = spyOnEmitMethod(file)
+      spyOnEmitMethod(file)
 
       try {
         await runPreprocessor(file)
         assert.fail()
       } catch {
-        expect(emitSpy).not.to.be.calledWith('rerun')
+        expect(file.emit).not.to.be.calledWith('rerun')
       }
     })
 
     it('triggers rerun on subsequent builds, even after a errored initial build', async () => {
       file = createFixtureFile({ name: 'error_due_invalid_syntax_spec.js', shouldWatch: true })
 
-      const emitSpy = spyOnEmitMethod(file)
+      spyOnEmitMethod(file)
 
       try {
         await runPreprocessor(file)
@@ -181,13 +154,22 @@ describe('compilation - e2e', () => {
       } catch {
         await file.writeOnInputFile('console.log()')
 
-        await listenForRerunEvent(emitSpy)
+        await listenForRerunEvent(file)
       }
     })
   })
 })
 
-async function runPreprocessor (file: FixtureFile, options: undefined | PreprocessorOptions = undefined): Promise<string> {
+async function createFixtureFileAndRunPreprocessor (createFileOpts?: Parameters<typeof createFixtureFile>[0], preprocessorOpts?: PreprocessorOptions): Promise<FixtureFile> {
+  const file = createFixtureFile(createFileOpts)
+
+  spyOnEmitMethod(file)
+  await runPreprocessor(file, preprocessorOpts)
+
+  return file
+}
+
+async function runPreprocessor (file: FixtureFile, options?: PreprocessorOptions): Promise<string> {
   const result = await preprocessor(options)(file)
 
   // MAC OS bug
@@ -202,6 +184,6 @@ function spyOnEmitMethod (file: FixtureFile) {
   return sinon.spy(file, 'emit')
 }
 
-function listenForRerunEvent (emitSpy: sinon.SinonSpy<[string | symbol, ...any[]], boolean>) {
-  return retry(() => expect(emitSpy).calledWith('rerun'), { max_tries: 20 })
+function listenForRerunEvent (file: FixtureFile) {
+  return retry(() => expect(file.emit).calledWith('rerun'), { max_tries: 20 })
 }

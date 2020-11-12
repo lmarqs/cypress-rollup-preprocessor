@@ -92,7 +92,11 @@ describe('compilation - e2e', () => {
   })
 
   describe('test event emission', () => {
-    it('triggers rerun after a modification', async () => {
+    forEach([
+      'this is a syntax error',
+      'console.log("this is a valid modification")',
+    ])
+    .it('triggers rerun after a modification (%s)', async () => {
       file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
 
       await file.writeOnInputFile('console.log()')
@@ -111,14 +115,6 @@ describe('compilation - e2e', () => {
     it('does not trigger rerun on initial build', async () => {
       file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
       expect(file.emit).not.to.be.calledWith('rerun')
-    })
-
-    it('triggers rerun on subsequent builds', async () => {
-      file = await createFixtureFileAndRunPreprocessor({ shouldWatch: true })
-
-      await file.writeOnInputFile('console.log()')
-
-      await listenForRerunEvent(file)
     })
 
     it('does not trigger rerun on errored initial build', async () => {

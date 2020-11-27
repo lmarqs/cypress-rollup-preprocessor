@@ -10,6 +10,8 @@
 
 ## Installation
 
+[![NPM](https://nodei.co/npm/cypress-rollup-preprocessor.png)](https://nodei.co/npm/cypress-rollup-preprocessor/)
+
 First install [node.js](http://nodejs.org/). Then:
 
 ```sh

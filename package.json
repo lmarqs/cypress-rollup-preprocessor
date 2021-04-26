@@ -35,7 +35,7 @@
     "@types/mocha-each": "^2.0.0",
     "@types/sinon": "^10.0.0",
     "@types/sinon-chai": "^3.2.4",
-    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^3.9.1",
     "bluebird": "^3.7.2",
     "bluebird-retry": "^0.11.0",

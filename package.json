@@ -46,7 +46,7 @@
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-json-format": "^2.0.1",
-    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-mocha": "^9.0.0",
     "markdownlint-cli": "^0.27.1",
     "mocha": "^8.1.1",
     "mocha-each": "^2.0.1",

@@ -41,7 +41,7 @@
     "bluebird-retry": "^0.11.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "cypress": "^6.0.0",
+    "cypress": "^8.1.0",
     "eslint": "^7.7.0",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-import": "^2.22.0",

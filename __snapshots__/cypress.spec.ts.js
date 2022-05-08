@@ -1,167 +1,43 @@
 exports['cypress - e2e test: cypress integration 1'] = `
+It looks like this is your first time using Cypress: 6.6.0
 
-====================================================================================================
+[18:16:11]  Verifying Cypress can run /home/lmarqs/.cache/Cypress/6.6.0/Cypress [started]
+[18:16:11]  Verifying Cypress can run /home/lmarqs/.cache/Cypress/6.6.0/Cypress [failed]
+[18:16:11] → Your system is missing the dependency: Xvfb
 
-  (Run Starting)
+Install Xvfb and run Cypress again.
 
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Cypress:    *.*.*                                                                              │
-  │ Browser:    Electron ** (headless)                                                             │
-  │ Specs:      4 found (compile-error.spec.js, fail.spec.js, pass.spec.js, runtime-error.spec.js) │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+Read our documentation on dependencies for more information:
 
+https://on.cypress.io/required-dependencies
 
-────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                    
-  Running:  compile-error.spec.js                                                           (1 of 4)
+If you are using Docker, we provide containers with all required dependencies installed.
 
-Oops...we found an error preparing this test file:
+----------
 
-  cypress/integration/compile-error.spec.js
+Error: spawn Xvfb ENOENT
 
-The error was:
+----------
 
-Error: Unexpected token
+Platform: linux (Ubuntu - 20.04)
+Cypress Version: 6.6.0
+Your system is missing the dependency: Xvfb
 
-This occurred while Cypress was compiling and bundling your test code. This is usually caused by:
+Install Xvfb and run Cypress again.
 
-- A missing file or dependency
-- A syntax error in the file or one of its dependencies
+Read our documentation on dependencies for more information:
 
-Fix the error in your code and re-run your tests.
+https://on.cypress.io/required-dependencies
 
-  (Results)
+If you are using Docker, we provide containers with all required dependencies installed.
 
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Tests:        0                                                                                │
-  │ Passing:      0                                                                                │
-  │ Failing:      1                                                                                │
-  │ Pending:      0                                                                                │
-  │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
-  │ Video:        false                                                                            │
-  │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     compile-error.spec.js                                                            │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+----------
 
+Error: spawn Xvfb ENOENT
 
-────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                    
-  Running:  fail.spec.js                                                                    (2 of 4)
+----------
 
-
-  fail on purpose
-    1) fails
-
-
-  0 passing (***ms)
-  1 failing
-
-  1) fail on purpose
-       fails:
-
-      AssertionError: expected 1 to be above 1
-      + expected - actual
-
-
-      at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/fail.spec.js:8:23)
-
-
-
-
-  (Results)
-
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Tests:        1                                                                                │
-  │ Passing:      0                                                                                │
-  │ Failing:      1                                                                                │
-  │ Pending:      0                                                                                │
-  │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
-  │ Video:        false                                                                            │
-  │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     fail.spec.js                                                                     │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                    
-  Running:  pass.spec.js                                                                    (3 of 4)
-
-
-  success
-    ✓ pass after ***ms (***ms)
-
-
-  1 passing (***ms)
-
-
-  (Results)
-
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Tests:        1                                                                                │
-  │ Passing:      1                                                                                │
-  │ Failing:      0                                                                                │
-  │ Pending:      0                                                                                │
-  │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
-  │ Video:        false                                                                            │
-  │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     pass.spec.js                                                                     │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-                                                                                                    
-  Running:  runtime-error.spec.js                                                           (4 of 4)
-
-
-  runtime error
-    1) throws a error
-
-
-  0 passing (***ms)
-  1 failing
-
-  1) runtime error
-       throws a error:
-     Error: error thrown on purpose
-      at Context.eval (http://localhost:****/__cypress/tests?p=cypress/integration/runtime-error.spec.js:8:13)
-
-
-
-
-  (Results)
-
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ Tests:        1                                                                                │
-  │ Passing:      0                                                                                │
-  │ Failing:      1                                                                                │
-  │ Pending:      0                                                                                │
-  │ Skipped:      0                                                                                │
-  │ Screenshots:  0                                                                                │
-  │ Video:        false                                                                            │
-  │ Duration:     0 seconds                                                                        │
-  │ Spec Ran:     runtime-error.spec.js                                                            │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-
-
-====================================================================================================
-
-  (Run Finished)
-
-
-       Spec                                              Tests  Passing  Failing  Pending  Skipped  
-  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✖  compile-error.spec.js                    ***ms        -        -        1        -        - │
-  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✖  fail.spec.js                             ***ms        1        -        1        -        - │
-  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✔  pass.spec.js                             ***ms        1        1        -        -        - │
-  ├────────────────────────────────────────────────────────────────────────────────────────────────┤
-  │ ✖  runtime-error.spec.js                    ***ms        1        -        1        -        - │
-  └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✖  3 of 4 failed (75%)                      ***ms        3        1        3        -        -  
-
+Platform: linux (Ubuntu - 20.04)
+Cypress Version: 6.6.0
 
 `

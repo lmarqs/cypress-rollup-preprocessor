@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.2...v0.7.0) (2022-05-08)
+
+
+### Features
+
+* **breaking-ckange:** allow customization of the output\nBREAKING CHANGE use inputOptions and outputOptions instead of rollupOptions ([f29d39c](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/f29d39cd43e512819755245f4187fc96c89058ff))
+
 ## [0.6.2](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.1...v0.6.2) (2020-11-10)
 
 

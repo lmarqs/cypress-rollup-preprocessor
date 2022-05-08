@@ -1,13 +1,14 @@
-import chai, { assert, expect } from 'chai'
 import retry from 'bluebird-retry'
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
+import chai, { assert, expect } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import forEach from 'mocha-each'
-
+import { InputOptions, OutputOptions } from 'rollup'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 import preprocessor, { PreprocessorOptions } from '../../src'
 import { createFixtureFile, FixtureFile } from '../fixtures'
 import { chaiSnapshot } from '../helpers/match-snapshot'
+
 
 chai.use(sinonChai)
 chai.use(chaiAsPromised)
@@ -31,24 +32,34 @@ describe('compilation - e2e', function () {
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })
 
-    it('correctly preprocesses the file using plugins', async function () {
+    it('correctly preprocesses the file using input options', async function () {
       file = createFixtureFile({ name: 'success_spec.ts' })
 
-      const options = {
-        rollupOptions: {
-          plugins: [
-            require('rollup-plugin-typescript2')({
-              tsconfigOverride: {
-                compilerOptions: {
-                  module: 'esnext',
-                },
+      const inputOptions: InputOptions = {
+        plugins: [
+          require('rollup-plugin-typescript2')({
+            tsconfigOverride: {
+              compilerOptions: {
+                module: 'esnext',
               },
-            }),
-          ],
-        },
+            },
+          }),
+        ],
       }
 
-      await runPreprocessor(file, options)
+      await runPreprocessor(file, { inputOptions })
+
+      await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
+    })
+
+    it('correctly preprocesses using output options', async function () {
+      file = createFixtureFile({ name: 'success_spec.js' })
+
+      const outputOptions: OutputOptions = {
+        format: 'umd',
+      }
+
+      await runPreprocessor(file, { outputOptions })
 
       await expect(file.getOutputFileContent()).to.eventually.matchSnapshot
     })

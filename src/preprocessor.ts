@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import { RollupOptions, OutputOptions } from 'rollup'
+import { RollupOptions, OutputOptions, InputOptions } from 'rollup'
 
 import { watch, getWatcherCachedOutput } from './watch'
 import { build } from './build'
@@ -14,7 +14,8 @@ export type FileObject =
   ;
 
 export interface PreprocessorOptions {
-  rollupOptions?: Partial<RollupOptions>
+  inputOptions?: Partial<InputOptions>
+  outputOptions?: Partial<OutputOptions>
 }
 
 export function preprocessor (options: PreprocessorOptions = {}) {
@@ -22,24 +23,23 @@ export function preprocessor (options: PreprocessorOptions = {}) {
 }
 
 async function processFile (options: PreprocessorOptions, file: FileObject): Promise<string> {
-  const rollupOptions: RollupOptions = Object.assign({}, options.rollupOptions, {
+  const inputOptions: RollupOptions = Object.assign({}, options.inputOptions, {
     input: file.filePath,
   })
 
-  const watcherCachedOutput = getWatcherCachedOutput(rollupOptions)
+  const watcherCachedOutput = getWatcherCachedOutput(inputOptions)
 
   if (watcherCachedOutput) {
     return watcherCachedOutput
   }
 
-  const outputOptions: OutputOptions = {
+  const outputOptions: OutputOptions = Object.assign({}, options.outputOptions, {
     file: file.outputPath,
-    format: 'umd',
-  }
+  })
 
   if (file.shouldWatch) {
-    return watch(rollupOptions, outputOptions, file)
+    return watch(inputOptions, outputOptions, file)
   }
 
-  return build(rollupOptions, outputOptions)
+  return build(inputOptions, outputOptions)
 }

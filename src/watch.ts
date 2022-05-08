@@ -1,15 +1,15 @@
-import { watch as rollupWatcher, RollupOptions, OutputOptions, RollupWatcher, RollupWatcherEvent } from 'rollup'
+import { watch as rollupWatcher, InputOptions, OutputOptions, RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { EventEmitter } from 'events'
 
 const lastWatchersOutputEmmitedEvents: Record<string, RollupWatcherEvent> = {}
 
 const watchers: Record<string, RollupWatcher> = {}
 
-export async function watch (rollupOptions: RollupOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
-  const watcherKey = getWatcherKey(rollupOptions)
+export async function watch (inputOptions: InputOptions, outputOptions: OutputOptions, file: EventEmitter): Promise<string> {
+  const watcherKey = getWatcherKey(inputOptions)
 
   const watcher = watchers[watcherKey] = watchers[watcherKey] ?? rollupWatcher({
-    ...rollupOptions,
+    ...inputOptions,
     output: outputOptions,
   })
 
@@ -20,13 +20,13 @@ export async function watch (rollupOptions: RollupOptions, outputOptions: Output
 
     watcher.on('event', (e: RollupWatcherEvent) => {
       if (['BUNDLE_END', 'ERROR'].includes(e.code)) {
-        setCachedWatcherOutput(rollupOptions, e)
+        setCachedWatcherOutput(inputOptions, e)
       }
 
       if (['END', 'ERROR'].includes(e.code)) {
         if (firstBuild) {
           firstBuild = false
-          getWatcherCachedOutput(rollupOptions)!
+          getWatcherCachedOutput(inputOptions)!
           .then(resolve)
           .catch(reject)
         } else {
@@ -37,16 +37,16 @@ export async function watch (rollupOptions: RollupOptions, outputOptions: Output
   })
 }
 
-function setCachedWatcherOutput (rollupOptions: RollupOptions, e: RollupWatcherEvent) {
-  lastWatchersOutputEmmitedEvents[getWatcherKey(rollupOptions)] = e
+function setCachedWatcherOutput (inputOptions: InputOptions, e: RollupWatcherEvent) {
+  lastWatchersOutputEmmitedEvents[getWatcherKey(inputOptions)] = e
 }
 
-function getWatcherKey (rollupOptions: RollupOptions) {
-  return rollupOptions.input!.toString()
+function getWatcherKey (inputOptions: InputOptions) {
+  return inputOptions.input!.toString()
 }
 
-export function getWatcherCachedOutput (rollupOptions: RollupOptions) {
-  const lastEvent = lastWatchersOutputEmmitedEvents[getWatcherKey(rollupOptions)]
+export function getWatcherCachedOutput (inputOptions: InputOptions) {
+  const lastEvent = lastWatchersOutputEmmitedEvents[getWatcherKey(inputOptions)]
 
   if (lastEvent?.code === 'BUNDLE_END') {
     return Promise.resolve(lastEvent.output[0])

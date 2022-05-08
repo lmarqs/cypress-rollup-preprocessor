@@ -57,21 +57,29 @@ Pass in options as the argument to `rollup`:
 ```javascript
 const rollupPreprocessor = require("cypress-rollup-preprocessor");
 
+// Using the options from rollup.config.js
+const rollupConfig = require("../../rollup.config");
+
 module.exports = (on) => {
   const options = {
-    // send in the options from your rollup.config.js, so it works the same
-    // as your app's code
-    rollupOptions: require("../../rollup.config"),
+    inputOptions: rollupConfig,
+    outputOptions: rollupConfig.output,
   };
 
   on("file:preprocessor", rollupPreprocessor(options));
 };
 ```
 
-### rollupOptions
+### inputOptions
 
-Object of rollup options. Just `require` in the options from your
+Object of rollup input options. You can just `require` in the options from your
 `rollup.config.js` to use the same options as your app.
+Reference: https://rollupjs.org/guide/en/#inputoptions-object
+
+### outputOptions
+
+Object of rollup output options.
+Reference: https://rollupjs.org/guide/en/#outputoptions-object
 
 ## Contributing
 

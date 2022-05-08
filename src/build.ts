@@ -1,7 +1,7 @@
-import { rollup as rollupBuilder, RollupOptions, OutputOptions } from 'rollup'
+import { rollup as rollupBuilder, InputOptions, OutputOptions } from 'rollup'
 
-export async function build (rollupOptions: RollupOptions, outputOptions: OutputOptions): Promise<string> {
-  const builder = await rollupBuilder(rollupOptions)
+export async function build (inputOptions: InputOptions, outputOptions: OutputOptions): Promise<string> {
+  const builder = await rollupBuilder(inputOptions)
 
   await builder.write(outputOptions)
 

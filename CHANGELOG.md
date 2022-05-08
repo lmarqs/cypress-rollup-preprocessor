@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v1.0.0...v1.0.1) (2022-05-08)
+
+
+### Bug Fixes
+
+* bump version ([cdf6457](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/cdf6457fc4a19927f3c5a8b8804961b89d2cb76c))
+
 # [0.7.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v0.6.2...v0.7.0) (2022-05-08)
 
 

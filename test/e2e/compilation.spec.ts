@@ -9,7 +9,6 @@ import preprocessor, { PreprocessorOptions } from '../../src'
 import { createFixtureFile, FixtureFile } from '../fixtures'
 import { chaiSnapshot } from '../helpers/match-snapshot'
 
-
 chai.use(sinonChai)
 chai.use(chaiAsPromised)
 chai.use(chaiSnapshot)

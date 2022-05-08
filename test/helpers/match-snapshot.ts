@@ -1,3 +1,4 @@
+import * as Chai from 'chai'
 import snapshot from 'snap-shot-it'
 
 export const chaiSnapshot: Chai.ChaiPlugin = (chai, utils) => {

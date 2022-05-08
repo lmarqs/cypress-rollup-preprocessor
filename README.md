@@ -74,12 +74,12 @@ module.exports = (on) => {
 
 Object of rollup input options. You can just `require` in the options from your
 `rollup.config.js` to use the same options as your app.
-Reference: https://rollupjs.org/guide/en/#inputoptions-object
+Reference: <https://rollupjs.org/guide/en/#inputoptions-object>
 
 ### outputOptions
 
 Object of rollup output options.
-Reference: https://rollupjs.org/guide/en/#outputoptions-object
+Reference: <https://rollupjs.org/guide/en/#outputoptions-object>
 
 ## Contributing
 

@@ -10,7 +10,7 @@ export const chaiSnapshot: Chai.ChaiPlugin = (chai, utils) => {
       snapshot(value)
       this.assert(true, 'expected to match snapshot', 'expected not to match snapshot', '')
     } catch (e) {
-      this.assert(false, 'expected to match snapshot', 'expected not to match snapshot', e.message)
+      this.assert(false, 'expected to match snapshot', 'expected not to match snapshot', '')
     }
   })
 }

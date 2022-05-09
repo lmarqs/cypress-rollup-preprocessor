@@ -6,6 +6,6 @@
   "devDependencies": {
     "cypress": "^8.1.0",
     "cypress-rollup-preprocessor": "file:../..",
-    "rollup": "^2.55.1"
+    "rollup": "^2.72.1"
   }
 }

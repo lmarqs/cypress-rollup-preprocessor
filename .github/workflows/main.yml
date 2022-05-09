@@ -34,6 +34,8 @@ jobs:
         coverageCommand: npm run coverage
         coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
     - if: github.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
-      uses: hmarr/auto-approve-action@v2
+      run: gh pr merge --auto --merge "$PR_URL"
       with:
-        github-token: ${{ secrets.OWNER_GITHUB_TOKEN || github.token }}
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.OWNER_GITHUB_TOKEN }}

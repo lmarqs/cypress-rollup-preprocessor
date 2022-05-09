@@ -33,4 +33,4 @@ jobs:
     - if: github.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
       uses: hmarr/auto-approve-action@v2.0.0
       with:
-        github-token: "${{ secrets.OWNER_GITHUB_TOKEN }}"
+        github-token: ${{ secrets.OWNER_GITHUB_TOKEN }}

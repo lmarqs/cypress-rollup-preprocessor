@@ -21,7 +21,7 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run build
-    - run: CI='' npm run test
+    - run: npm run test
     - run: npm run release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

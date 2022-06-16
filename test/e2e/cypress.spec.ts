@@ -33,17 +33,18 @@ function spawnCypressProcess (...args: string[]) {
 
 function normalizeCypressRunProcessStdOut (output: string): string {
   return output
-  .replace(/localhost:\d+/g, 'localhost:****')
-  .replace(/Cypress: +\d+.\d+.\d+.+/g, 'Cypress:    *.*.*                                                                              │')
-  .replace(/Browser: +Electron \d+.+/g, 'Browser:    Electron ** (headless)                                                             │')
-  .replace(/Node Version: +v\d+.\d+.\d+.+/g, 'Node Version:   v*.*.*                                                                         │')
+  .replace(/localhost:\d+/ug, 'localhost:****')
+  .replace(/Cypress: +\d+.\d+.\d+.+/ug, 'Cypress:    *.*.*                                                                              │')
+  .replace(/Browser: +Electron \d+.+/ug, 'Browser:    Electron ** (headless)                                                             │')
+  .replace(/Node Version: +v\d+.\d+.\d+.+/ug, 'Node Version:   v*.*.*                                                                         │')
   .replace(/cypress.integration./, 'cypress/integration/')
   .replace(/compile-error.spec.js .+ms/, 'compile-error.spec.js                    ***ms'.trim())
   .replace(/fail.spec.js .+ms/, '         fail.spec.js                             ***ms'.trim())
   .replace(/pass.spec.js .+ms/, '         pass.spec.js                             ***ms'.trim())
   .replace(/runtime-error.spec.js .+ms/, 'runtime-error.spec.js                    ***ms'.trim())
-  .replace(/\d+ms/g, '***ms')
-  .replace(/at .+/g, ' at ****************************************************************************')
-  .replace(/\\/g, '/')
-  .replace(/\r/g, '')
+  .replace(/\d+ms/ug, '***ms')
+  .replace(/at .+/ug, ' at ****************************************************************************')
+  .replace(/×/ug, '✖')
+  .replace(/\\/ug, '/')
+  .replace(/\r/ug, '')
 }

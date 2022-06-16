@@ -45,6 +45,7 @@ function normalizeCypressRunProcessStdOut (output: string): string {
   .replace(/\d+ms/ug, '***ms')
   .replace(/at .+/ug, ' at ****************************************************************************')
   .replace(/×/ug, '✖')
+  .replace(/√/ug, '✔')
   .replace(/\\/ug, '/')
   .replace(/\r/ug, '')
 }

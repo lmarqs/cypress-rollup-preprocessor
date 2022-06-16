@@ -60,10 +60,7 @@ const rollupPreprocessor = require('cypress-rollup-preprocessor')
 // Using the options from rollup.config.js
 const rollupConfig = require('../../rollup.config')
 
-const {
-  output: outputOptions,
-  ...inputOptions
-} = rollupConfig
+const { output: outputOptions, ...inputOptions } = rollupConfig
 
 /**
  * @type {Cypress.PluginConfig}

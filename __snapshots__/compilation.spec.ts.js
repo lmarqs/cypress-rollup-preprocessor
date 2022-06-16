@@ -10,9 +10,9 @@ it('is a test', () => {
 `
 
 exports['compilation - e2e test preprocessor output correctly preprocesses the file using input options 1'] = `
-it('is a test', function () {\r
-    var _a = [1, 2], a = _a[0], b = _a[1];\r
-    console.log(+a.toString(), b.toString());\r
+it('is a test', function () {
+    var _a = [1, 2], a = _a[0], b = _a[1];
+    console.log(+a.toString(), b.toString());
 });
 
 `

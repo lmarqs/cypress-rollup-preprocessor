@@ -35,7 +35,6 @@ jobs:
         coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
     - if: github.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
       run: gh pr merge --auto --merge "$PR_URL"
-      with:
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.OWNER_GITHUB_TOKEN }}
+      env:
+        PR_URL: ${{ github.event.pull_request.html_url }}
+        GITHUB_TOKEN: ${{ secrets.OWNER_GITHUB_TOKEN }}

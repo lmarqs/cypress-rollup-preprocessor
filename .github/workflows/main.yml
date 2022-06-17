@@ -9,14 +9,14 @@ jobs:
   build:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
     steps:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         fetch-depth: 0
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
     - if: github.ref != 'refs/heads/master'
       run: git branch master origin/master
     - run: npm ci

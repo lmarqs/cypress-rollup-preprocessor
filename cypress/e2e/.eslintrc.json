@@ -1,5 +1,5 @@
 {
   "ignorePatterns": [
-    "compile-error.spec.js"
+    "compile-error.cy.js"
   ]
 }

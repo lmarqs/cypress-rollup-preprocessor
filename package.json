@@ -8,7 +8,6 @@
     "build": "rollup --config rollup.config.ts",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "lint": "npm-run-all lint:*",
-    "lint:commit": "commitlint --from master",
     "lint:js": "eslint --ext .js,.jsx,.json,.ts,.tsx .",
     "lint:markdown": "markdownlint '**/*.md' --ignore '**/node_modules/**/*' --ignore CHANGELOG.md",
     "lint:yaml": "yamllint '**/*.{yaml,yml}' --ignore='**/node_modules/**/*'",
@@ -17,7 +16,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
     "@cypress/eslint-plugin-dev": "^5.0.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

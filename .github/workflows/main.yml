@@ -11,14 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        fetch-depth: 0
     - uses: actions/setup-node@v3
       with:
         node-version: 14
-    - if: github.ref != 'refs/heads/master'
-      run: git branch master origin/master
     - run: npm ci
     - run: npm run lint
     - run: npm run build

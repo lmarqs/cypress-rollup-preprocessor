@@ -21,7 +21,7 @@ exports['compilation - e2e test preprocessor output correctly preprocesses using
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
   factory();
-}((function () { 'use strict';
+})((function () { 'use strict';
 
   it('is a test', () => {
     const [a, b] = [1, 2];
@@ -31,7 +31,7 @@ exports['compilation - e2e test preprocessor output correctly preprocesses using
     expect(Math.min(...[3, 4])).to.equal(3);
   });
 
-})));
+}));
 
 `
 

@@ -34,14 +34,14 @@ jobs:
       with:
         github-token: ${{ secrets.OWNER_GITHUB_TOKEN }}
         script: |
-          github.pullRequests.createReview({
+          github.rest.pulls.createReview({
             owner: context.payload.repository.owner.login,
             repo: context.payload.repository.name,
-            pull_number: context.payload.pull_request.number,
+            pull_number: context.payload.number,
             event: 'APPROVE'
           })
-          github.pullRequests.merge({
+          github.rest.pulls.merge({
             owner: context.payload.repository.owner.login,
             repo: context.payload.repository.name,
-            pull_number: context.payload.pull_request.number
+            pull_number: context.payload.number
           })

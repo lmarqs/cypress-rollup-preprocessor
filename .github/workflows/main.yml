@@ -37,6 +37,7 @@ jobs:
     - if: github.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
       uses: actions/github-script@v6
       with:
+        github-token: ${{ secrets.OWNER_GITHUB_TOKEN }}
         script: |
           github.pullRequests.createReview({
             owner: context.payload.repository.owner.login,
@@ -49,4 +50,3 @@ jobs:
             repo: context.payload.repository.name,
             pull_number: context.payload.pull_request.number
           })
-        github-token: ${{ secrets.OWNER_GITHUB_TOKEN }}

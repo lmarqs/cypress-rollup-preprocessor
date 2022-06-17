@@ -35,7 +35,7 @@ jobs:
         coverageCommand: npm run coverage
         coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
     - if: githb.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
-      uses: actions/github-script@0.2.0
+      uses: actions/github-script@v6
       with:
         script: |
           github.pullRequests.createReview({

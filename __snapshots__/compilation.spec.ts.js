@@ -57,4 +57,15 @@ Could not resolve './does/not-exist' from test/fixtures/_tmp/error_due_importing
 
 exports['compilation - e2e test preprocessor output has less verbose error message (error_due_invalid_syntax_spec.js) 1'] = `
 Unexpected token
+1: describe('fail', ->)
+                     ^
+/test/fixtures/_tmp/error_due_invalid_syntax_spec.js:1:18
+`
+
+exports['compilation - e2e test preprocessor output throws on invalid file (true) 1'] = `
+Could not resolve entry module (test/fixtures/_tmp).
+`
+
+exports['compilation - e2e test preprocessor output throws on invalid file (false) 1'] = `
+Could not resolve entry module (test/fixtures/_tmp).
 `

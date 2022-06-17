@@ -20,6 +20,7 @@ function normalizeStdOut (output: string): string {
   return output
   .replace(/\\/g, '/')
   .replace(/\r/g, '')
+  .replace(process.cwd().replace(/\\/ug, '/'), '')
 }
 
 declare global {

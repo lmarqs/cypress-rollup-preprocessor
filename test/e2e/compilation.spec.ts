@@ -111,6 +111,16 @@ describe('compilation - e2e', function () {
       .to.eventually.be.rejected
       .and.to.matchSnapshot
     })
+
+    forEach([
+      true,
+      false,
+    ])
+    .it('throws on invalid file (%s)', async (shouldWatch) => {
+      await expect(runPreprocessor(new FixtureFile('', shouldWatch), {}))
+      .to.eventually.be.rejected
+      .and.to.matchSnapshot
+    })
   })
 
   describe('test event emission', function () {

@@ -1,5 +1,6 @@
 import { watch as rollupWatcher, InputOptions, OutputOptions, RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { EventEmitter } from 'events'
+import { wrapRollupError } from './error'
 
 const lastWatchersOutputEmmitedEvents: Record<string, RollupWatcherEvent> = {}
 
@@ -53,7 +54,7 @@ export function getWatcherCachedOutput (inputOptions: InputOptions) {
   }
 
   if (lastEvent?.code === 'ERROR') {
-    return Promise.reject(lastEvent.error)
+    return Promise.reject(wrapRollupError(lastEvent.error))
   }
 
   return null

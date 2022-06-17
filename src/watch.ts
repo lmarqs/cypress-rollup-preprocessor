@@ -23,7 +23,7 @@ export async function watch (inputOptions: InputOptions, outputOptions: OutputOp
         setCachedWatcherOutput(inputOptions, e)
       }
 
-      if (['END', 'ERROR'].includes(e.code)) {
+      if (['END'].includes(e.code)) {
         if (firstBuild) {
           firstBuild = false
           getWatcherCachedOutput(inputOptions)!

@@ -32,7 +32,7 @@ jobs:
       with:
         coverageCommand: npm run coverage
         coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
-    - if: github.ref != 'refs/heads/master' && (github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]')
+    - if: github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]'
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.OWNER_GITHUB_TOKEN }}

@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v1.0.2...v1.1.0) (2022-06-17)
+
+
+### Features
+
+* enhance error messages ([1c41c1c](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/1c41c1ca3ab6d0c13d72191caa968ff1638cba93))
+
 ## [1.0.2](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v1.0.1...v1.0.2) (2022-06-17)
 
 

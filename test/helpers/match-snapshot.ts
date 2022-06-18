@@ -26,7 +26,7 @@ function normalizeStdOut (output: string): string {
 declare global {
   export namespace Chai {
     interface PromisedAssertion {
-        matchSnapshot: PromisedAssertion
+      matchSnapshot: PromisedAssertion
     }
   }
 }

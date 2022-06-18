@@ -46,7 +46,6 @@ import rollupPreprocessor from 'cypress-rollup-preprocessor'
 
 export default defineConfig({
   e2e: {
-    supportFile: false,
     setupNodeEvents (on, config) {
       on('file:preprocessor', rollupPreprocessor())
     },

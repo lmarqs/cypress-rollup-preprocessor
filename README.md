@@ -76,7 +76,7 @@ Pass in options as the argument to `rollup`:
 ```javascript
 import rollupPreprocessor from 'cypress-rollup-preprocessor'
 // Using the options from rollup.config.js
-import rollupConfig from '../../rollup.config'
+import rollupConfig from '<dir>/rollup.config'
 
 const { output: outputOptions, ...inputOptions } = rollupConfig
 

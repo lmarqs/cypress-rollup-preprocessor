@@ -1,4 +1,4 @@
-const typescript = require('rollup-plugin-typescript2')
+import typescript from 'rollup-plugin-typescript2'
 
 module.exports = {
   plugins: [

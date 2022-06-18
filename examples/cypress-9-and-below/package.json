@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^9.7.0",
+    "cypress-rollup-preprocessor": "file:../..",
+    "rollup": "^2.75.6"
+  }
+}

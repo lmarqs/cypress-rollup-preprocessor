@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    // cypress 10 transpile the config files based on the tsconfig.json.
+    // so, this setting is required in order to import the 'rollup-plugin-typescript2'
+    "esModuleInterop": true,
+    "types": ["cypress"]
+  }
+}

@@ -35,7 +35,26 @@ This version is only compatible with rollup 2.x+
 
 ## Usage
 
-In your project's [plugins file](https://on.cypress.io/guides/tooling/plugins-guide.html):
+Check [Cypress' official documentation](https://docs.cypress.io/api/plugins/preprocessors-api#Usage) about preprocessors
+
+### Cypress >= 10
+
+```javascript
+import { defineConfig } from 'cypress'
+
+import rollupPreprocessor from 'cypress-rollup-preprocessor'
+
+export default defineConfig({
+  e2e: {
+    supportFile: false,
+    setupNodeEvents (on, config) {
+      on('file:preprocessor', rollupPreprocessor())
+    },
+  },
+})
+```
+
+### Cypress <= 9
 
 ```javascript
 const rollupPreprocessor = require("cypress-rollup-preprocessor");
@@ -47,32 +66,24 @@ module.exports = (on) => {
 
 ### Examples
 
-- [Basic](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/basic)
-- [Using Typescript](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/typescript)
+- [Cypress >= 10](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/cypress-10-and-above)
+- [Cypress <= 9](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/cypress-9-and-below)
+- [Using Rollup config with Typescript](https://github.com/lmarqs/cypress-rollup-preprocessor/tree/master/examples/using-rollup-config-with-typescript)
 
 ## Options
 
 Pass in options as the argument to `rollup`:
 
 ```javascript
-const rollupPreprocessor = require('cypress-rollup-preprocessor')
-
+import rollupPreprocessor from 'cypress-rollup-preprocessor'
 // Using the options from rollup.config.js
-const rollupConfig = require('../../rollup.config')
+import rollupConfig from '../../rollup.config'
 
 const { output: outputOptions, ...inputOptions } = rollupConfig
 
-/**
- * @type {Cypress.PluginConfig}
- */
-module.exports = (on) => {
-  const options = {
-    inputOptions,
-    outputOptions,
-  }
-
-  on('file:preprocessor', rollupPreprocessor(options))
-}
+// ...
+  on('file:preprocessor', rollupPreprocessor({ inputOptions, outputOptions }))
+// ...
 ```
 
 ### inputOptions

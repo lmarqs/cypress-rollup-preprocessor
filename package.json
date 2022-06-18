@@ -1,6 +1,6 @@
 {
   "name": "cypress-rollup-preprocessor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Cypress preprocessor for bundling JavaScript via rollup",
   "main": "dist/index.js",
   "scripts": {

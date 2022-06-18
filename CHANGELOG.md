@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v1.1.0...v1.2.0) (2022-06-18)
+
+
+### Features
+
+* enhance docs ([d16fb30](https://github.com/lmarqs/cypress-rollup-preprocessor/commit/d16fb30f29947a737db8fe57fc433417c91b4e08))
+
 # [1.1.0](https://github.com/lmarqs/cypress-rollup-preprocessor/compare/v1.0.2...v1.1.0) (2022-06-17)
 
 

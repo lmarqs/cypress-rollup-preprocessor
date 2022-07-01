@@ -1,4 +1,4 @@
-# cypress-rollup-preprocessor
+# Cypress Rollup Preprocessor
 
 ![Build](https://github.com/lmarqs/cypress-rollup-preprocessor/workflows/Build/badge.svg?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7b0c1699b09bf771af2b/maintainability)](https://codeclimate.com/github/lmarqs/cypress-rollup-preprocessor/maintainability)

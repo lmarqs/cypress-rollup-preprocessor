@@ -4,8 +4,8 @@ exports['cypress - e2e test: cypress integration 1'] = `
   (Run Starting)
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Cypress:    *.*.*                                                                              │
-  │ Browser:    Electron ** (headless)                                                             │
-  │ Node Version:   v*.*.*                                                                         │
+  │ Browser:    Chrome *** (headless)                                                              │
+  │ Node Version:   v14.*.*                                                                        │
   │ Specs:          4 found (compile-error.cy.js, fail.cy.js, pass.cy.js, runtime-error.cy.js)     │
   │ Searched:       cypress/e2e/**/*.cy.{js,jsx,ts,tsx}                                            │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘

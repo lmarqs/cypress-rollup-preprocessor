@@ -16,7 +16,7 @@ function initCypress (): void {
 }
 
 function runCypress (): string {
-  const { stdout } = spawnCypressProcess('run')
+  const { stdout } = spawnCypressProcess('run', '--browser', 'chrome')
 
   return normalizeCypressRunProcessStdOut(stdout)
 }
@@ -35,8 +35,8 @@ function normalizeCypressRunProcessStdOut (output: string): string {
   return output
   .replace(/localhost:\d+/ug, 'localhost:****')
   .replace(/Cypress: +\d+.\d+.\d+.+/ug, 'Cypress:    *.*.*                                                                              │')
-  .replace(/Browser: +Electron \d+.+/ug, 'Browser:    Electron ** (headless)                                                             │')
-  .replace(/Node Version: +v\d+.\d+.\d+.+/ug, 'Node Version:   v*.*.*                                                                         │')
+  .replace(/Browser: +Chrome \d+.+/ug, 'Browser:    Chrome *** (headless)                                                              │')
+  .replace(/Node Version: +v14.\d+.\d+.+/ug, 'Node Version:   v14.*.*                                                                        │')
   .replace(/cypress.integration./, 'cypress/integration/')
   .replace(/compile-error.cy.js .+ms/, 'compile-error.cy.js                      ***ms'.trim())
   .replace(/fail.cy.js .+ms/, '         fail.cy.js                               ***ms'.trim())

@@ -25,7 +25,7 @@
     "@types/chai": "^4.3.1",
     "@types/chai-as-promised": "^7.1.5",
     "@types/cross-spawn": "^6.0.2",
-    "@types/fs-extra": "^9.0.4",
+    "@types/fs-extra": "^11.0.0",
     "@types/mocha": "^10.0.0",
     "@types/mocha-each": "^2.0.0",
     "@types/sinon": "^10.0.11",

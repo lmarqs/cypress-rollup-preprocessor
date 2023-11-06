@@ -28,7 +28,7 @@
     "@types/fs-extra": "^11.0.0",
     "@types/mocha": "^10.0.0",
     "@types/mocha-each": "^2.0.0",
-    "@types/sinon": "^10.0.11",
+    "@types/sinon": "^17.0.0",
     "@types/sinon-chai": "^3.2.4",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.22.0",
